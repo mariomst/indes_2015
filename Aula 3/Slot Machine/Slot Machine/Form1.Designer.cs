@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SlotMachine));
             this.button1 = new System.Windows.Forms.Button();
             this.result = new System.Windows.Forms.Label();
             this.saldoLabel = new System.Windows.Forms.Label();
@@ -37,10 +38,16 @@
             this.Box1 = new System.Windows.Forms.PictureBox();
             this.Box2 = new System.Windows.Forms.PictureBox();
             this.Box3 = new System.Windows.Forms.PictureBox();
+            this.menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.apostaBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Box1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Box2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Box3)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -137,6 +144,48 @@
             this.Box3.TabIndex = 12;
             this.Box3.TabStop = false;
             // 
+            // menuItem
+            // 
+            this.menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutMenuItem,
+            this.sairToolStripMenuItem,
+            this.exitMenuItem});
+            this.menuItem.Name = "menuItem";
+            this.menuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuItem.Text = "Menu";
+            // 
+            // aboutMenuItem
+            // 
+            this.aboutMenuItem.Name = "aboutMenuItem";
+            this.aboutMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.aboutMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.aboutMenuItem.Text = "S&obre";
+            this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            // 
+            // sairToolStripMenuItem
+            // 
+            this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(144, 6);
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.exitMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.exitMenuItem.Text = "&Sair";
+            this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.Color.White;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(388, 24);
+            this.menuStrip1.TabIndex = 13;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
             // SlotMachine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -153,13 +202,22 @@
             this.Controls.Add(this.saldoLabel);
             this.Controls.Add(this.result);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SlotMachine";
-            this.Text = "Slot Machine";
+            this.Text = "Slot Machine v2.0";
             ((System.ComponentModel.ISupportInitialize)(this.apostaBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Box1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Box2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Box3)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -174,6 +232,11 @@
         private System.Windows.Forms.PictureBox Box1;
         private System.Windows.Forms.PictureBox Box2;
         private System.Windows.Forms.PictureBox Box3;
+        private System.Windows.Forms.ToolStripMenuItem menuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
+        private System.Windows.Forms.ToolStripSeparator sairToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
     }
 }
 

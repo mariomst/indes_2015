@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,53 @@ namespace Slot_Machine
         {
             InitializeComponent();
             saldoValor.Text = saldo.ToString();           
+        }        
+
+        /*
+        *   Função para associar o numero gerado aleatóriamente a uma imagem.
+        */
+        private void setBoxImage(int boxNumber, PictureBox box)
+        {   
+            if (boxNumber == 1)
+            {
+                box.BackgroundImage = Resources.apple;
+                box.Refresh();
+            }
+            if (boxNumber == 2)
+            {
+                box.BackgroundImage = Resources.bananas;
+                box.Refresh();
+            }
+            if (boxNumber == 3)
+            {
+                box.BackgroundImage = Resources.cherry;
+                box.Refresh();
+            }
+            if (boxNumber == 4)
+            {
+                box.BackgroundImage = Resources.grapes;
+                box.Refresh();
+            }
+            if (boxNumber == 5)
+            {
+                box.BackgroundImage = Resources.pear;
+                box.Refresh();
+            }
+            if (boxNumber == 6)
+            {
+                box.BackgroundImage = Resources.watermelon;
+                box.Refresh();
+            }
+            if (boxNumber == 7)
+            {
+                box.BackgroundImage = Resources.orange;
+                box.Refresh();
+            }
+            if (boxNumber == 8)
+            {
+                box.BackgroundImage = Resources.strawberry;
+                box.Refresh();
+            }
         }
 
         /*
@@ -27,70 +75,75 @@ namespace Slot_Machine
         */
         private void randomImageEffect()
         {
-            Random random = new Random();
+            Random random   = new Random();
+            Stopwatch sw    = new Stopwatch();
 
-            Stopwatch sw = new Stopwatch();
+            int rand1_number = 0;
+            int rand2_number = 0;
+            int rand3_number = 0;
+
+            //Quando é feito uma jogada o botão fica desativo até o evento do stopwatch terminar.
+            button1.Enabled = false;
             sw.Start();
-            while (sw.Elapsed < TimeSpan.FromSeconds(5))
+            while (sw.Elapsed < TimeSpan.FromSeconds(2))
             {
-                var rand_number1 = random.Next(0, 9);
-                var rand_number2 = random.Next(0, 9);
-                var rand_number3 = random.Next(0, 9);
-                setBoxImage(rand_number1, Box1);
-                setBoxImage(rand_number2, Box2);
-                setBoxImage(rand_number3, Box3);
+                //Gera 3 números aleatórios
+                rand1_number = random.Next(1, 8);
+                rand2_number = random.Next(1, 8);
+                rand3_number = random.Next(1, 8);
+
+                //Para a alternação de imagens não ser tão rápida
+                System.Threading.Thread.Sleep(100);
+
+                //Muda as imageBoxes com imagens aleatórias
+                setBoxImage(rand1_number, Box1);
+                setBoxImage(rand2_number, Box2);
+                setBoxImage(rand3_number, Box3);
             }
             sw.Stop();
+            button1.Enabled = true;          
         }
 
         /*
-        *   Função para associar o numero gerado aleatóriamente a uma imagem.
+        *   Função para verificar o resultado da aposta
         */
-        private void setBoxImage(int boxNumber, PictureBox box)
+        private void gameResult(int aposta, int box1_number, int box2_number, int box3_number)
         {
-            Console.WriteLine(boxNumber);
-            if(boxNumber == 1)
+            if (box1_number == 7 && box2_number == 7 && box3_number == 7)    //aposta decuplicada
             {
-                box.BackgroundImage = Resources.apple;
+                aposta = aposta * 10;
+                saldo = saldo + aposta;
+                result.Text = "Parabéns! Ganhou Jackpot.";
             }
-            if (boxNumber == 2)
+            else if (box1_number != box2_number && box1_number != box3_number && box2_number != box3_number)
             {
-                box.BackgroundImage = Resources.cherry;
+                aposta = aposta * 5;
+                saldo = saldo + aposta;
+                result.Text = "Parabéns! Aposta quintuplicada.";
             }
-            if (boxNumber == 3)
+            else if ((box1_number == 7 && box2_number == 7) || (box1_number == 7 && box3_number == 7) || (box2_number == 7 && box3_number == 7))  //aposta triplicada
             {
-                box.BackgroundImage = Resources.banana;
+                aposta = aposta * 3;
+                saldo = saldo + aposta;
+                result.Text = "Parabéns! Aposta triplicada.";
             }
-            if (boxNumber == 4)
+            else if (box1_number == 7 || box2_number == 7 || box3_number == 7)  //aposta dobrada
             {
-                box.BackgroundImage = Resources.grapes;
-            }
-            if (boxNumber == 5)
-            {
-                box.BackgroundImage = Resources.lemon;
-            }
-            if (boxNumber == 6)
-            {
-                box.BackgroundImage = Resources.melon;
-            }
-            if (boxNumber == 7)
-            {
-                box.BackgroundImage = Resources.orange; //vence
-            }
-            if (boxNumber == 8)
-            {
-                box.BackgroundImage = Resources.apple;
-            }
-            if (boxNumber == 9)
-            {
-                box.BackgroundImage = Resources.cherry;
-            }
-        }
+                aposta = aposta * 2;
+                saldo = saldo + aposta;
+                result.Text = "Parabéns! Aposta dobrada.";
+            }            
 
+            saldoValor.Text = saldo.ToString(); //atualiza o valor do saldo
+        }
+        
+        /*
+        *   Instruções a executar quando o botão "Play" é pressionado
+        */
         private void button1_Click(object sender, EventArgs e)
         {
-            Random random = new Random();
-            int aposta = (int)apostaBox.Value;  //Obter valor da aposta
+            Random random   = new Random();            
+            int aposta      = (int)apostaBox.Value;  //Obter valor da aposta            
 
             result.Text = "";   //Limpa a caixa de texto do resultado
 
@@ -98,37 +151,20 @@ namespace Slot_Machine
             {
                 saldo = saldo - aposta; //retira o valor da aposta ao saldo
 
-                //gera tres numeros aleatóriamente
-                var box1_number = random.Next(0, 9);
-                var box2_number = random.Next(0, 9);
-                var box3_number = random.Next(0, 9);
+                //Gera três números aleatóriamente
+                int box1_number = random.Next(1, 8);
+                int box2_number = random.Next(1, 8);
+                int box3_number = random.Next(1, 8);
 
-                randomImageEffect();
+                //Para o efeito de rotação é gerado imagens aleatórias
+                randomImageEffect();               
 
+                //Define uma imagem conforme o número gerado
                 setBoxImage(box1_number, Box1);
                 setBoxImage(box2_number, Box2);
                 setBoxImage(box3_number, Box3);
 
-                if (box1_number == 7 && box2_number == 7 && box3_number == 7)    //aposta decuplicada
-                {
-                    aposta = aposta * 10;
-                    saldo = saldo + aposta;
-                    result.Text = "Parabéns! Ganhou Jackpot.";
-                }
-                else if ((box1_number == 7 && box2_number == 7) || (box1_number == 7 && box3_number == 7) || (box2_number == 7 && box3_number == 7))  //aposta triplicada
-                {
-                    aposta = aposta * 3;
-                    saldo = saldo + aposta;
-                    result.Text = "Parabéns! Aposta triplicada.";
-                }
-                else if (box1_number == 7 || box2_number == 7 || box3_number == 7)  //aposta dobrada
-                {
-                    aposta = aposta * 2;
-                    saldo = saldo + aposta;
-                    result.Text = "Parabéns! Aposta dobrada.";
-                }
-
-                saldoValor.Text = saldo.ToString(); //atualiza o valor do saldo
+                gameResult(aposta, box1_number, box2_number, box3_number);
             }
             else
             {
@@ -142,5 +178,24 @@ namespace Slot_Machine
                 }                
             }         
         }
+        
+        /*
+        *   Ecrã sobre
+        */
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 about = new Form2();
+
+            about.Show();
+        }
+
+        /*
+        *   Termina a aplicação
+        */
+        private void exitMenuItem_Click(object sender, EventArgs e)
+        {
+            //Terminar aplicação
+            Application.Exit();
+        }      
     }
 }
