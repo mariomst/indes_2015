@@ -72,5 +72,10 @@ namespace Broadcaster
                 }
             }*/
         }
+
+        private void Play_Click(object sender, EventArgs e)
+        {
+            LFiles.Movie = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
+        }
     }
 }

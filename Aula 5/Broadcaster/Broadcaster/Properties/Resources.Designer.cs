@@ -63,9 +63,29 @@ namespace Broadcaster.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Static {
+            get {
+                object obj = ResourceManager.GetObject("Static", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap wallpaper1 {
             get {
                 object obj = ResourceManager.GetObject("wallpaper1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap wallpaper11 {
+            get {
+                object obj = ResourceManager.GetObject("wallpaper11", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
