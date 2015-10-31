@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,8 +37,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.LocalCamera = new System.Windows.Forms.PictureBox();
-            this.LCBtn = new System.Windows.Forms.Button();
-            this.LCconfig = new System.Windows.Forms.ComboBox();
+            this.LC1Btn = new System.Windows.Forms.Button();
+            this.WCconfig = new System.Windows.Forms.ComboBox();
             this.LFiles = new AxShockwaveFlashObjects.AxShockwaveFlash();
             this.Play = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -47,6 +48,13 @@
             this.axShockwaveFlash2 = new AxShockwaveFlashObjects.AxShockwaveFlash();
             this.LFList = new System.Windows.Forms.ComboBox();
             this.YTList = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Btconfig = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.LC2Btn = new System.Windows.Forms.Button();
+            this.serialPortBT = new System.IO.Ports.SerialPort(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.WCaddress = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LFiles)).BeginInit();
@@ -114,23 +122,26 @@
             this.LocalCamera.TabIndex = 2;
             this.LocalCamera.TabStop = false;
             // 
-            // LCBtn
+            // LC1Btn
             // 
-            this.LCBtn.Location = new System.Drawing.Point(648, 273);
-            this.LCBtn.Name = "LCBtn";
-            this.LCBtn.Size = new System.Drawing.Size(75, 51);
-            this.LCBtn.TabIndex = 3;
-            this.LCBtn.Text = "Local Camera";
-            this.LCBtn.UseVisualStyleBackColor = true;
-            this.LCBtn.Click += new System.EventHandler(this.LCBtn_Click);
+            this.LC1Btn.BackColor = System.Drawing.Color.Red;
+            this.LC1Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LC1Btn.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LC1Btn.Location = new System.Drawing.Point(653, 371);
+            this.LC1Btn.Name = "LC1Btn";
+            this.LC1Btn.Size = new System.Drawing.Size(75, 51);
+            this.LC1Btn.TabIndex = 3;
+            this.LC1Btn.Text = "LC1";
+            this.LC1Btn.UseVisualStyleBackColor = false;
+            this.LC1Btn.Click += new System.EventHandler(this.LC1Btn_Click);
             // 
-            // LCconfig
+            // WCconfig
             // 
-            this.LCconfig.FormattingEnabled = true;
-            this.LCconfig.Location = new System.Drawing.Point(28, 259);
-            this.LCconfig.Name = "LCconfig";
-            this.LCconfig.Size = new System.Drawing.Size(126, 21);
-            this.LCconfig.TabIndex = 4;
+            this.WCconfig.FormattingEnabled = true;
+            this.WCconfig.Location = new System.Drawing.Point(737, 455);
+            this.WCconfig.Name = "WCconfig";
+            this.WCconfig.Size = new System.Drawing.Size(155, 21);
+            this.WCconfig.TabIndex = 4;
             // 
             // LFiles
             // 
@@ -143,7 +154,7 @@
             // 
             // Play
             // 
-            this.Play.Location = new System.Drawing.Point(635, 231);
+            this.Play.Location = new System.Drawing.Point(657, 160);
             this.Play.Name = "Play";
             this.Play.Size = new System.Drawing.Size(75, 23);
             this.Play.TabIndex = 6;
@@ -157,7 +168,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(30, 105);
+            this.label2.Location = new System.Drawing.Point(43, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 20);
             this.label2.TabIndex = 7;
@@ -169,7 +180,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(196, 104);
+            this.label3.Location = new System.Drawing.Point(202, 104);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 8;
@@ -221,13 +232,84 @@
             this.YTList.Size = new System.Drawing.Size(125, 21);
             this.YTList.TabIndex = 13;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(653, 456);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 20);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "WebCam";
+            // 
+            // Btconfig
+            // 
+            this.Btconfig.FormattingEnabled = true;
+            this.Btconfig.Location = new System.Drawing.Point(737, 492);
+            this.Btconfig.Name = "Btconfig";
+            this.Btconfig.Size = new System.Drawing.Size(155, 21);
+            this.Btconfig.TabIndex = 15;
+            this.Btconfig.SelectedIndexChanged += new System.EventHandler(this.Btconfig_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(610, 493);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 20);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Bluetooth COM";
+            // 
+            // LC2Btn
+            // 
+            this.LC2Btn.BackColor = System.Drawing.Color.Red;
+            this.LC2Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LC2Btn.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LC2Btn.Location = new System.Drawing.Point(737, 371);
+            this.LC2Btn.Name = "LC2Btn";
+            this.LC2Btn.Size = new System.Drawing.Size(75, 51);
+            this.LC2Btn.TabIndex = 17;
+            this.LC2Btn.Text = "LC2";
+            this.LC2Btn.UseVisualStyleBackColor = false;
+            this.LC2Btn.Click += new System.EventHandler(this.LC2Btn_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(634, 529);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(94, 20);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "IP WebCam";
+            // 
+            // WCaddress
+            // 
+            this.WCaddress.Location = new System.Drawing.Point(737, 529);
+            this.WCaddress.Name = "WCaddress";
+            this.WCaddress.Size = new System.Drawing.Size(155, 20);
+            this.WCaddress.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Broadcaster.Properties.Resources.wallpaper11;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(904, 546);
+            this.ClientSize = new System.Drawing.Size(904, 605);
+            this.Controls.Add(this.WCaddress);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.LC2Btn);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.Btconfig);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.YTList);
             this.Controls.Add(this.LFList);
             this.Controls.Add(this.axShockwaveFlash2);
@@ -237,8 +319,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Play);
             this.Controls.Add(this.LFiles);
-            this.Controls.Add(this.LCconfig);
-            this.Controls.Add(this.LCBtn);
+            this.Controls.Add(this.WCconfig);
+            this.Controls.Add(this.LC1Btn);
             this.Controls.Add(this.LocalCamera);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
@@ -267,8 +349,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox LocalCamera;
-        private System.Windows.Forms.Button LCBtn;
-        private System.Windows.Forms.ComboBox LCconfig;
+        private System.Windows.Forms.Button LC1Btn;
+        private System.Windows.Forms.ComboBox WCconfig;
         private AxShockwaveFlashObjects.AxShockwaveFlash LFiles;
         private System.Windows.Forms.Button Play;
         private System.Windows.Forms.Label label2;
@@ -278,6 +360,13 @@
         private AxShockwaveFlashObjects.AxShockwaveFlash axShockwaveFlash2;
         private System.Windows.Forms.ComboBox LFList;
         private System.Windows.Forms.ComboBox YTList;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox Btconfig;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button LC2Btn;
+        private System.IO.Ports.SerialPort serialPortBT;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox WCaddress;
     }
 }
 

@@ -40,10 +40,16 @@
       <HintPath>Libraries\AForge.Controls.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Video">
-      <HintPath>Libraries\AForge.Video.dll</HintPath>
+      <HintPath>Lib\AForge.Video.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Video.DirectShow">
-      <HintPath>Libraries\AForge.Video.DirectShow.dll</HintPath>
+      <HintPath>Lib\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.FFMPEG">
+      <HintPath>Lib\AForge.Video.FFMPEG.dll</HintPath>
+    </Reference>
+    <Reference Include="MjpegProcessor">
+      <HintPath>Lib\MjpegProcessor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -109,6 +115,15 @@
     </COMReference>
     <COMReference Include="ShockwaveFlashObjects">
       <Guid>{D27CDB6B-AE6D-11CF-96B8-444553540000}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
