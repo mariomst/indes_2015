@@ -12,6 +12,8 @@ using AForge.Video.DirectShow;
 using MjpegProcessor;
 using System.Net;
 using System.Drawing;
+using Broadcaster.Properties;
+using AForge.Video.FFMPEG;
 
 namespace Broadcaster
 {
@@ -19,6 +21,7 @@ namespace Broadcaster
     {        
         private FilterInfoCollection webcamDevices;
         private VideoCaptureDevice webcamSource     = null;
+        private Bitmap image;
         private bool webcamExist                    = false;
         private bool LC1state                       = false;
         private bool LC2state                       = false;
@@ -30,6 +33,8 @@ namespace Broadcaster
             InitializeComponent();
             getCamList();
             getBluetoothList();
+
+            LocalCamera.Image = Resources.Static;
         }
 
         //Função para obter a lista de cameras
@@ -84,6 +89,13 @@ namespace Broadcaster
             Btconfig.SelectedIndex = 0;
         }
 
+        void webcam_newframe(object sender, NewFrameEventArgs eventargs)
+        {
+            image = (Bitmap)eventargs.Frame.Clone();
+            image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            LocalCamera.Image = image;
+        }
+
         //Botão que liga ou desliga a webcam
         private void LC1Btn_Click(object sender, EventArgs e)
         {
@@ -92,41 +104,17 @@ namespace Broadcaster
             {
                 LC1Btn.BackColor = System.Drawing.Color.Green;
                 LC1state = true;
+                webcamSource = new VideoCaptureDevice(webcamDevices[WCconfig.SelectedIndex].MonikerString);
+                webcamSource.NewFrame += new NewFrameEventHandler(webcam_newframe);
+                webcamSource.Start();
             }
             else
             {
                 LC1Btn.BackColor = System.Drawing.Color.Red;
                 LC1state = false;
+                webcamSource.Stop();
+                LocalCamera.Image = Resources.Static;
             }
-
-
-            /*  if (DeviceExist)
-              {
-                   videoSource = new VideoCaptureDevice(videoDevices[LCconfig.SelectedIndex].MonikerString);
-                   videoSource.NewFrame += new NewFrameEventHandler(LocalCamera);
-                       CloseVideoSource();
-                       videoSource.DesiredFrameSize = new Size(160, 120);
-                       videoSource.DesiredFrameRate = 10;
-                       videoSource.Start();
-                       //label2.Text = "Device running...";
-                       //start.Text = "&Stop";
-                       //timer1.Enabled = true;
-              }
-              else
-              {
-                   //         label2.Text = "Error: No Device selected.";
-                   }
-               }
-               else
-               {
-                   if (videoSource.IsRunning)
-                   {
-                       timer1.Enabled = false;
-                       CloseVideoSource();
-                       label2.Text = "Device stopped.";
-                       start.Text = "&Start";
-                   }
-               }*/
         }
 
         private void LC2Btn_Click(object sender, EventArgs e)
@@ -200,12 +188,17 @@ namespace Broadcaster
 
         private void Play_Click(object sender, EventArgs e)
         {
-            LFiles.Movie = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
+            YTFiles.Movie = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
         }
 
         private void Btconfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             serialPortBT.PortName = (string)Btconfig.SelectedItem;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LFiles.URL = "D:/Workspace/indes_2015/Aula 5/Broadcaster/CIMG9865.AVI";
         }
     }
 }

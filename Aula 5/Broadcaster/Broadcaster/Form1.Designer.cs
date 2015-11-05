@@ -39,7 +39,6 @@
             this.LocalCamera = new System.Windows.Forms.PictureBox();
             this.LC1Btn = new System.Windows.Forms.Button();
             this.WCconfig = new System.Windows.Forms.ComboBox();
-            this.LFiles = new AxShockwaveFlashObjects.AxShockwaveFlash();
             this.Play = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,11 +54,13 @@
             this.serialPortBT = new System.IO.Ports.SerialPort(this.components);
             this.label7 = new System.Windows.Forms.Label();
             this.WCaddress = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.LFiles = new AxWMPLib.AxWindowsMediaPlayer();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axShockwaveFlash2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -114,11 +115,11 @@
             // 
             // LocalCamera
             // 
-            this.LocalCamera.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.LocalCamera.Image = global::Broadcaster.Properties.Resources.Static;
+            this.LocalCamera.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.LocalCamera.Location = new System.Drawing.Point(29, 137);
             this.LocalCamera.Name = "LocalCamera";
             this.LocalCamera.Size = new System.Drawing.Size(125, 105);
+            this.LocalCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.LocalCamera.TabIndex = 2;
             this.LocalCamera.TabStop = false;
             // 
@@ -142,15 +143,6 @@
             this.WCconfig.Name = "WCconfig";
             this.WCconfig.Size = new System.Drawing.Size(155, 21);
             this.WCconfig.TabIndex = 4;
-            // 
-            // LFiles
-            // 
-            this.LFiles.Enabled = true;
-            this.LFiles.Location = new System.Drawing.Point(184, 137);
-            this.LFiles.Name = "LFiles";
-            this.LFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("LFiles.OcxState")));
-            this.LFiles.Size = new System.Drawing.Size(125, 105);
-            this.LFiles.TabIndex = 5;
             // 
             // Play
             // 
@@ -297,6 +289,25 @@
             this.WCaddress.Size = new System.Drawing.Size(155, 20);
             this.WCaddress.TabIndex = 19;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(657, 201);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // LFiles
+            // 
+            this.LFiles.Enabled = true;
+            this.LFiles.Location = new System.Drawing.Point(184, 137);
+            this.LFiles.Name = "LFiles";
+            this.LFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("LFiles.OcxState")));
+            this.LFiles.Size = new System.Drawing.Size(125, 105);
+            this.LFiles.TabIndex = 22;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,6 +315,8 @@
             this.BackgroundImage = global::Broadcaster.Properties.Resources.wallpaper11;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(904, 605);
+            this.Controls.Add(this.LFiles);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.WCaddress);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.LC2Btn);
@@ -318,7 +331,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Play);
-            this.Controls.Add(this.LFiles);
             this.Controls.Add(this.WCconfig);
             this.Controls.Add(this.LC1Btn);
             this.Controls.Add(this.LocalCamera);
@@ -332,9 +344,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axShockwaveFlash2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -351,7 +363,6 @@
         private System.Windows.Forms.PictureBox LocalCamera;
         private System.Windows.Forms.Button LC1Btn;
         private System.Windows.Forms.ComboBox WCconfig;
-        private AxShockwaveFlashObjects.AxShockwaveFlash LFiles;
         private System.Windows.Forms.Button Play;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -367,6 +378,8 @@
         private System.IO.Ports.SerialPort serialPortBT;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox WCaddress;
+        private System.Windows.Forms.Button button1;
+        private AxWMPLib.AxWindowsMediaPlayer LFiles;
     }
 }
 
