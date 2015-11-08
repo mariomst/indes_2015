@@ -3,17 +3,18 @@ using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Net;
+using System.Drawing;
+using Broadcaster.Properties;
+using System.IO;
 
 //Libs de Aforge
 using AForge.Video;
 using AForge.Video.DirectShow;
+using AForge.Video.FFMPEG;
 
 //Libs Adicionais
 using MjpegProcessor;
-using System.Net;
-using System.Drawing;
-using Broadcaster.Properties;
-using AForge.Video.FFMPEG;
 
 namespace Broadcaster
 {
@@ -25,18 +26,36 @@ namespace Broadcaster
         private bool webcamExist                    = false;
         private bool LC1state                       = false;
         private bool LC2state                       = false;
+        private bool LA1state                       = false;
+        private bool LA2state                       = false;
+        private bool LA3state                       = false;
 
-        MjpegDecoder mjpeg;
+        private string lfPath;
+        private string ytPath;
+        private string configPath;
 
+        
         public Form1()
         {
             InitializeComponent();
             getCamList();
             getBluetoothList();
-
+            getPath();
+            this.Activated += new EventHandler(fillLists);
+            
             LocalCamera.Image = Resources.Static;
+            lfPicture.Image   = Resources.Static;
+            ytPicture.Image   = Resources.Static;
+            livePicture.Image = Resources.Static;
         }
 
+        private void getPath()
+        {
+            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            lfPath = parentDirectory + "\\Videos\\LF\\";
+            ytPath = parentDirectory + "\\Videos\\YT\\";
+            configPath = parentDirectory + "\\Config\\";
+        }
         //Função para obter a lista de cameras
         private void getCamList()
         {
@@ -92,7 +111,7 @@ namespace Broadcaster
         void webcam_newframe(object sender, NewFrameEventArgs eventargs)
         {
             image = (Bitmap)eventargs.Frame.Clone();
-            image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //image.RotateFlip(RotateFlipType.RotateNoneFlipY);
             LocalCamera.Image = image;
         }
 
@@ -103,17 +122,15 @@ namespace Broadcaster
             if(LC1state == false)
             {
                 LC1Btn.BackColor = System.Drawing.Color.Green;
-                LC1state = true;
-                webcamSource = new VideoCaptureDevice(webcamDevices[WCconfig.SelectedIndex].MonikerString);
+                LC1state         = true;
+                webcamSource     = new VideoCaptureDevice(webcamDevices[WCconfig.SelectedIndex].MonikerString);
                 webcamSource.NewFrame += new NewFrameEventHandler(webcam_newframe);
-                webcamSource.Start();
             }
             else
             {
                 LC1Btn.BackColor = System.Drawing.Color.Red;
                 LC1state = false;
                 webcamSource.Stop();
-                LocalCamera.Image = Resources.Static;
             }
         }
 
@@ -186,19 +203,131 @@ namespace Broadcaster
             } 
         }
 
-        private void Play_Click(object sender, EventArgs e)
-        {
-            YTFiles.Movie = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
-        }
-
         private void Btconfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             serialPortBT.PortName = (string)Btconfig.SelectedItem;
+        }     
+
+        
+        /*
+         * Função para preencher as listas
+         */
+        private void fillLists(object sender, EventArgs e)
+        {
+            string lfList = "videos.txt";
+            string ytList = "youtube.txt";
+            string lfPathList = lfPath + lfList;
+            string ytPathList = ytPath + ytList;
+
+            if (File.Exists(lfPathList))
+            {
+                Console.WriteLine("Info: File " + lfPathList + " exists.");
+
+                //Ler valores dentro do ficheiro
+                string[] values = File.ReadAllText(lfPathList).Split(';');
+
+                if (values.Length > 0)
+                {
+                    LFList.Items.Clear();
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        if (values[i] != "")
+                        {
+                            LFList.Items.Add(values[i]);
+                        }                        
+                    }
+
+                    LFList.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Info: File " + lfPathList + " doesn't exist.");
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /*
+         * Abrir janela com a lista de Videos Locais
+         */
+        private void editLF_Click(object sender, EventArgs e)
         {
-            LFiles.URL = "D:/Workspace/indes_2015/Aula 5/Broadcaster/CIMG9865.AVI";
+            ListLF ListLF = new ListLF();
+            ListLF.Show();
         }
+
+        /*
+         * Abrir janela com a lista de Videos Youtube
+         */
+        private void editYT_Click(object sender, EventArgs e)
+        {
+            ListYT ListYT = new ListYT();
+            ListYT.Show();
+        }
+
+        /*
+         * Função para ativar o preview da webcam
+         */
+        private void LA1_Click(object sender, EventArgs e)
+        {
+            //Mudar a cor para indicar se esta ON ou OFF
+            if (LA1state == false)
+            {
+                LA1state = true;
+                LA1.BackColor = System.Drawing.Color.Green;
+
+                if (LC1state == true)
+                {
+                    
+                    webcamSource.Start();
+                }
+                else if (LC2state == true)
+                {
+
+                }
+            }
+            else
+            {
+                LA1state = false;
+                LA1.BackColor = System.Drawing.Color.Red;
+                LocalCamera.Image = Resources.Static;
+            }      
+        }
+
+        /*
+         * Função para ativar o preview dos videos locais
+         */
+        private void LA2_Click(object sender, EventArgs e)
+        {
+            if(LA2state == false)
+            {
+                LA2state = true;
+                LA2.BackColor = System.Drawing.Color.Green;
+
+                string video = LFList.SelectedItem.ToString();
+                string videoPath = lfPath + video;
+
+                lfPicture.Hide();
+                LFiles.URL = videoPath;
+                LFiles.settings.mute = true;
+            }
+            else 
+            {
+                LA2state = false;
+                LA2.BackColor = System.Drawing.Color.Red;
+                WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)LFiles.Ctlcontrols;
+                controls.stop();
+                lfPicture.Show();
+            }            
+        }
+
+        /*
+         * Função para ativar o preview dos videos Web
+         */
+        private void LA3_Click(object sender, EventArgs e)
+        {
+            ytPicture.Hide();
+            YTFiles.URL = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
+            YTFiles.settings.volume = 0;
+        }        
     }
 }
