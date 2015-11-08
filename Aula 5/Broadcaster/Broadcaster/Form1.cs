@@ -99,6 +99,7 @@ namespace Broadcaster
                 {
                     // Titulo
                     titleLabel.Text = values[0];
+                    this.Text = values[0];
 
                     // Fundo
                     if (values[2] != "wallpaper1.jpg")
@@ -254,17 +255,17 @@ namespace Broadcaster
                 {
                     //Mudar a cor para indicar que esta ON
                     LC2Btn.BackColor = System.Drawing.Color.Green;
-                    LC2state = true;
+                    LC2state = true;                 
 
                     //Ligação por IP à webcam
-                    Uri uri = new Uri(WebCamIP);
-                    var request = WebRequest.Create(uri);
+                    //Uri uri = new Uri(WebCamIP);
+                    //var request = WebRequest.Create(uri);
 
-                    using (var response = request.GetResponse())
-                    using (var stream = response.GetResponseStream())
-                    {
-                        LocalCamera.Image = Bitmap.FromStream(stream);
-                    }
+                    //using (var response = request.GetResponse())
+                    //using (var stream = response.GetResponseStream())
+                    //{
+                    //    LocalCamera.Image = Bitmap.FromStream(stream);
+                    //}
                 }
                 else
                 {
