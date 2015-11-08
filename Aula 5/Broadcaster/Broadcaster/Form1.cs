@@ -304,27 +304,39 @@ namespace Broadcaster
          *  Função para ativar o preview da webcam
          */
         private void LA1_Click(object sender, EventArgs e)
-        {
-            //Mudar a cor para indicar se esta ON ou OFF
+        {             
             if (LA1state == false)
-            {
-                LA1state = true;
-                LA1.BackColor = System.Drawing.Color.Green;
-
+            {                
                 if (LC1state == true)
                 {
-                    
+                    //Mudar a cor para indicar que esta ON
+                    LA1state = true;
+                    LA1.BackColor = System.Drawing.Color.Green;
+
+                    //Mostrar na preview a webcam local
                     webcamSource.Start();
                 }
                 else if (LC2state == true)
                 {
+                    //Mudar a cor para indicar que esta ON
+                    LA1state = true;
+                    LA1.BackColor = System.Drawing.Color.Green;
 
+                    //Mostrar na preview a IP webcam
+                    //...
                 }
             }
             else
             {
                 LA1state = false;
                 LA1.BackColor = System.Drawing.Color.Red;
+
+                //Parar a webcam
+                if (LC1state == true)
+                {
+                    webcamSource.Stop();
+                }
+
                 LocalCamera.Image = Resources.offline;
             }      
         }
