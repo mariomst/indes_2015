@@ -19,196 +19,149 @@ using MjpegProcessor;
 namespace Broadcaster
 {
     public partial class Form1 : Form
-    {        
+    {
+        // Variáveis globais  
+        private string configPath;
+        private string ImagesPath;
+        private string userImagesPath;
+        private string lfPath;
+        private string ytPath;
+        
+        // WebCam
         private FilterInfoCollection webcamDevices;
         private VideoCaptureDevice webcamSource     = null;
         private Bitmap image;
         private bool webcamExist                    = false;
-        private bool LC1state                       = false;
-        private bool LC2state                       = false;
-        private bool LA1state                       = false;
-        private bool LA2state                       = false;
-        private bool LA3state                       = false;
+        private int selectedWebCam;
 
-        private string lfPath;
-        private string ytPath;
-        private string configPath;
+        // IP WebCam
+        private string WebCamIP;
 
-        
+        // Botões
+        private bool LA1state = false;
+        private bool LA2state = false;
+        private bool LA3state = false;
+
+        private bool LC1state = false;
+        private bool LC2state = false;
+        private bool PLstate  = false;
+                
         public Form1()
         {
             InitializeComponent();
-            getCamList();
-            getBluetoothList();
-            getPath();
+            this.Activated += new EventHandler(loadConfig);
+
+            getPaths();
+            getWebCamList();
+
             this.Activated += new EventHandler(fillLists);
             
-            LocalCamera.Image = Resources.Static;
-            lfPicture.Image   = Resources.Static;
-            ytPicture.Image   = Resources.Static;
-            livePicture.Image = Resources.Static;
+            LocalCamera.Image = Resources.offline;
+            lfPicture.Image   = Resources.offline;
+            ytPicture.Image   = Resources.offline;
+            livePicture.Image = Resources.offline;
         }
 
-        private void getPath()
+        /*============================================================================================
+        *= Funções auxiliares
+        *=============================================================================================*/
+        /*
+        *   Função para obter os diretórios da aplicação
+        */
+        private void getPaths()
         {
             string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            lfPath = parentDirectory + "\\Videos\\LF\\";
-            ytPath = parentDirectory + "\\Videos\\YT\\";
             configPath = parentDirectory + "\\Config\\";
+            userImagesPath = parentDirectory + "\\Images\\User\\";
+            ImagesPath = parentDirectory + "\\Images\\";
+            lfPath = parentDirectory + "\\Videos\\LF\\";
+            ytPath = parentDirectory + "\\Videos\\YT\\";            
         }
-        //Função para obter a lista de cameras
-        private void getCamList()
+
+        /*
+        *   Função para carregar as configurações da aplicação
+        */
+        private void loadConfig(object sender, EventArgs e)
+        {
+            // Obter o caminho do ficheiro de configuração
+            string configFile     = "config.txt";
+            string configFilePath = configPath + configFile;
+
+            // Verificar se o ficheiro existe
+            if(File.Exists(configFilePath))
+            {
+                Console.WriteLine("Info: File " + configFile + " exists. Loading configuration.");
+
+                //Ler valores dentro do ficheiro
+                string[] values = File.ReadAllText(configFilePath).Split(';');
+
+                if (values.Length > 0)
+                {
+                    // Titulo
+                    titleLabel.Text = values[0];
+
+                    // Fundo
+                    if (values[2] != "wallpaper1.jpg")
+                    {
+                        Console.WriteLine("Info: Custom background detected. Using custom images directory.");
+                        string backgroundImage = userImagesPath + values[2];
+                        this.BackgroundImage = Image.FromFile(backgroundImage);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Info: Using default images directory.");
+                        string backgroundImage = ImagesPath + values[2];
+                        this.BackgroundImage = Image.FromFile(backgroundImage);
+                    }
+
+                    // Logo
+                    // ...
+
+                    // Webcam
+                    selectedWebCam = Int32.Parse(values[3]);
+
+                    // IP Webcam 
+                    WebCamIP = values[4];        
+                }
+            }
+            else
+            {
+                Console.WriteLine("Info: File " + configFile + " exists. Using default configuration.");
+            }
+        }
+
+        /*
+        *   Função para obter a lista de WebCams
+        */
+        private void getWebCamList()
         {
             try
             {
-                webcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-
-                WCconfig.Items.Clear();
+                webcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);                
 
                 if (webcamDevices.Count == 0)
                 {
                     throw new ApplicationException();
                 }
 
-                webcamExist = true;
-
-                foreach (FilterInfo webcam in webcamDevices)
-                {
-                    WCconfig.Items.Add(webcam.Name);
-                }
+                webcamExist = true;                
             }
             catch (ApplicationException)
             {
-                webcamExist = false;
-                WCconfig.Items.Add("< 0 WebCams found >");
+                webcamExist = false;                
             }
-
-            WCconfig.SelectedIndex = 0;
         }
-
-        //Função para obter a lista de COMs de bluetooth
-        private void getBluetoothList()
-        {
-            List<string> btList = new List<string>();
-
-            Btconfig.Items.Clear();
-
-            foreach (string com in SerialPort.GetPortNames())
-            {
-                btList.Add(com);
-            }
-
-            if(btList.Count < 1)
-            {
-                btList.Add("< 0 COM ports found >");
-            }
-
-            btList.Sort();
-            Btconfig.Items.AddRange(btList.ToArray());
-            Btconfig.SelectedIndex = 0;
-        }
-
+        
+        /*
+        *   Função para obter novos frames da webcam e mostrar no ecrã
+        */
         void webcam_newframe(object sender, NewFrameEventArgs eventargs)
         {
             image = (Bitmap)eventargs.Frame.Clone();
-            //image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //image.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
             LocalCamera.Image = image;
         }
 
-        //Botão que liga ou desliga a webcam
-        private void LC1Btn_Click(object sender, EventArgs e)
-        {
-            //Mudar a cor para indicar se esta ON ou OFF
-            if(LC1state == false)
-            {
-                LC1Btn.BackColor = System.Drawing.Color.Green;
-                LC1state         = true;
-                webcamSource     = new VideoCaptureDevice(webcamDevices[WCconfig.SelectedIndex].MonikerString);
-                webcamSource.NewFrame += new NewFrameEventHandler(webcam_newframe);
-            }
-            else
-            {
-                LC1Btn.BackColor = System.Drawing.Color.Red;
-                LC1state = false;
-                webcamSource.Stop();
-            }
-        }
-
-        private void LC2Btn_Click(object sender, EventArgs e)
-        {
-            //Mudar a cor para indicar se esta ON ou OFF
-            if (LC2state == false)
-            {
-                LC2Btn.BackColor = System.Drawing.Color.Green;
-                LC2state = true;
-            }
-            else
-            {
-                LC2Btn.BackColor = System.Drawing.Color.Red;
-                LC2state = false;
-            }
-
-           // string fulladdress = "";
-           // LocalCamera.BackgroundImage = Image.FromFile(fulladdress);
-
-            var request = WebRequest.Create("http://192.168.1.4:8080/video");
-
-            using (var response = request.GetResponse())
-            using (var stream = response.GetResponseStream())
-            {
-                LocalCamera.BackgroundImage = Bitmap.FromStream(stream);
-            }
-
-            //Caso tenha um endereço IP da prioridade a esse, se não utiliza o de bluetooth:
-            if (WCaddress.Text != "")
-            {
-                string input = WCaddress.Text;
-                //string fulladdress = "http://192.168.1.4:8080/video";
-                //LC2.Movie = fulladdress;
-
-                //IPAddress address;
-                /*if (IPAddress.TryParse(input, out address))
-                {
-                    switch (address.AddressFamily)
-                    {
-                        case System.Net.Sockets.AddressFamily.InterNetwork:
-                           
-                            break;
-                        default:
-                            break;
-                    }
-                }*/
-            }
-            else
-            {
-                //Realizar ligação com o dispositivo associado a porta escolhida
-                if (Btconfig.SelectedText != "< 0 COM ports found >")
-                {
-                    if (!serialPortBT.IsOpen)
-                    {
-                        serialPortBT.BaudRate = 9600;
-                        serialPortBT.ReadTimeout = 1000;
-                        serialPortBT.Open();
-                    }
-                    else
-                    {
-                        serialPortBT.Close();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Error: No COM Port selected!", "Broadcaster Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                }
-            } 
-        }
-
-        private void Btconfig_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            serialPortBT.PortName = (string)Btconfig.SelectedItem;
-        }     
-
-        
         /*
          * Função para preencher as listas
          */
@@ -234,7 +187,7 @@ namespace Broadcaster
                         if (values[i] != "")
                         {
                             LFList.Items.Add(values[i]);
-                        }                        
+                        }
                     }
 
                     LFList.SelectedIndex = 0;
@@ -246,8 +199,91 @@ namespace Broadcaster
             }
         }
 
+        /*============================================================================================
+        *= Botões
+        *=============================================================================================*/
         /*
-         * Abrir janela com a lista de Videos Locais
+        *   Função para a WebCam local
+        */
+        private void LC1Btn_Click(object sender, EventArgs e)
+        {            
+            if(LC1state == false)
+            {
+                //Caso o LC2 esteja ativo, desativa
+                if(LC2state == true)
+                {
+                    LC2Btn.BackColor = System.Drawing.Color.Green;
+                    LC2state = false;
+                }               
+
+                //Ativar a WebCam
+                if(webcamExist == true)
+                { 
+                    webcamSource = new VideoCaptureDevice(webcamDevices[selectedWebCam].MonikerString);
+                    webcamSource.NewFrame += new NewFrameEventHandler(webcam_newframe);
+
+                    //Mudar a cor para indicar que esta ON
+                    LC1Btn.BackColor = System.Drawing.Color.Green;
+                    LC1state = true;
+                }
+                else
+                {
+                    Console.WriteLine("INFO: Failed to start the local webcam. Is there any webcam?");
+                }                
+            }
+            else
+            {
+                //Mudar a cor para indicar que esta OFF
+                LC1Btn.BackColor = System.Drawing.Color.Red;
+                LC1state = false;
+                
+                //Desactivar a WebCam
+                webcamSource.Stop();
+            }
+        }
+
+        /*
+        *   Função para a IP WebCam 
+        */
+        private void LC2Btn_Click(object sender, EventArgs e)
+        {            
+            if (LC2state == false)
+            {               
+                //Verificar se o endereço é válido
+                if(WebCamIP != "")
+                {
+                    //Mudar a cor para indicar que esta ON
+                    LC2Btn.BackColor = System.Drawing.Color.Green;
+                    LC2state = true;
+
+                    //Ligação por IP à webcam
+                    Uri uri = new Uri(WebCamIP);
+                    var request = WebRequest.Create(uri);
+
+                    using (var response = request.GetResponse())
+                    using (var stream = response.GetResponseStream())
+                    {
+                        LocalCamera.Image = Bitmap.FromStream(stream);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Info: No IP for the IP WebCam provided.");
+                    LocalCamera.Image = Resources.offline;
+                }
+            }
+            else
+            {
+                //Mudar a cor para indicar que esta OFF
+                LC2Btn.BackColor = System.Drawing.Color.Red;
+                LC2state = false;
+
+                LocalCamera.Image = Resources.offline;
+            }           
+        }          
+
+        /*
+         *  Função para abrir janela com a lista de Videos Locais
          */
         private void editLF_Click(object sender, EventArgs e)
         {
@@ -256,7 +292,7 @@ namespace Broadcaster
         }
 
         /*
-         * Abrir janela com a lista de Videos Youtube
+         *  Função para abrir janela com a lista de Videos Youtube
          */
         private void editYT_Click(object sender, EventArgs e)
         {
@@ -265,7 +301,7 @@ namespace Broadcaster
         }
 
         /*
-         * Função para ativar o preview da webcam
+         *  Função para ativar o preview da webcam
          */
         private void LA1_Click(object sender, EventArgs e)
         {
@@ -289,45 +325,125 @@ namespace Broadcaster
             {
                 LA1state = false;
                 LA1.BackColor = System.Drawing.Color.Red;
-                LocalCamera.Image = Resources.Static;
+                LocalCamera.Image = Resources.offline;
             }      
         }
 
         /*
-         * Função para ativar o preview dos videos locais
+         *  Função para ativar o preview dos videos locais
          */
         private void LA2_Click(object sender, EventArgs e)
         {
             if(LA2state == false)
             {
-                LA2state = true;
-                LA2.BackColor = System.Drawing.Color.Green;
+                // Verificar se a combobox dos ficheiros locais tem algum item antes de tentar reproduzir
+                if (LFList.Items.Count > 0)
+                {
+                    // Mudar o estado do botão
+                    LA2state = true;
+                    LA2.BackColor = System.Drawing.Color.Green;
 
-                string video = LFList.SelectedItem.ToString();
-                string videoPath = lfPath + video;
+                    // Obter o caminho do ficheiro de video
+                    string video = LFList.SelectedItem.ToString();
+                    string videoPath = lfPath + video;
 
-                lfPicture.Hide();
-                LFiles.URL = videoPath;
-                LFiles.settings.mute = true;
+                    // Iniciar preview do video
+                    lfPicture.Hide();
+                    LFiles.URL = videoPath;
+                    LFiles.settings.mute = true;
+                }                
             }
-            else 
+            else
             {
+                // Mudar o estado do botão
                 LA2state = false;
                 LA2.BackColor = System.Drawing.Color.Red;
+
+                // Parar o video
                 WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)LFiles.Ctlcontrols;
                 controls.stop();
+
+                // Alterar a janela preview
+                lfPicture.Image = Resources.offline;
                 lfPicture.Show();
-            }            
+            }
         }
 
         /*
          * Função para ativar o preview dos videos Web
          */
         private void LA3_Click(object sender, EventArgs e)
+        {            
+            if (LA3state == false)
+            {               
+                // Verificar se a combobox dos ficheiros locais tem algum item antes de tentar reproduzir
+                if (YTList.Items.Count > 0)
+                {
+                    // Mudar o estado do botão
+                    LA3state = true;
+                    LA3.BackColor = System.Drawing.Color.Green;
+
+                    // Processar o URL
+                    string url = YTList.SelectedItem.ToString();
+                    if (url != "")
+                    {
+                        string urlAux = url.Substring(url.IndexOf("=") + 1);
+                        string newUrl = "https://www.youtube.com/v/" + urlAux + "?autoplay=1&showinfo=0&controls=0";
+                        Console.WriteLine(newUrl);
+
+                        // Iniciar preview do video
+                        YTFiles.URL = newUrl;
+                        ytPicture.Hide();
+                    }
+                }                              
+            }
+            else
+            {
+                // Mudar o estado do botão
+                LA3state = false;
+                LA3.BackColor = System.Drawing.Color.Red;
+
+                // Parar o video
+                WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)YTFiles.Ctlcontrols;
+                controls.stop();
+
+                // Alterar a janela preview
+                ytPicture.Image = Resources.offline;
+                ytPicture.Show();
+            }
+
+            
+            //YTFiles.URL = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
+            //YTFiles.settings.volume = 0;
+        }
+
+        /*============================================================================================
+        *= MENU
+        *=============================================================================================*/
+        /*
+        *   Função para chamar a janela de configuração
+        */
+        private void configurationMenuItem_Click(object sender, EventArgs e)
         {
-            ytPicture.Hide();
-            YTFiles.URL = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
-            YTFiles.settings.volume = 0;
-        }        
+            Configuration config = new Configuration();
+            config.Show();
+        }
+
+        /*
+        *   Função para chamar a janela "About"
+        */
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.Show();
+        }
+
+        /*
+        *   Função para terminar a aplicação
+        */
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
