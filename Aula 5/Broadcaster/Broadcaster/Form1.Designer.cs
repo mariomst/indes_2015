@@ -58,6 +58,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.LFiles = new AxWMPLib.AxWindowsMediaPlayer();
             this.YTFiles = new AxWMPLib.AxWindowsMediaPlayer();
+            this.logoBox = new System.Windows.Forms.PictureBox();
+            this.categoryList = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.PLList = new System.Windows.Forms.ListBox();
+            this.newPLBtn = new System.Windows.Forms.Button();
+            this.editPLBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lfPicture)).BeginInit();
@@ -66,6 +72,8 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -75,7 +83,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(904, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(862, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -123,11 +131,11 @@
             // 
             this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.Color.White;
             this.titleLabel.Location = new System.Drawing.Point(0, 34);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(904, 55);
+            this.titleLabel.Size = new System.Drawing.Size(904, 44);
             this.titleLabel.TabIndex = 1;
             this.titleLabel.Text = "INDES - BROADCASTER";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -135,7 +143,7 @@
             // LocalCamera
             // 
             this.LocalCamera.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.LocalCamera.Location = new System.Drawing.Point(29, 137);
+            this.LocalCamera.Location = new System.Drawing.Point(30, 123);
             this.LocalCamera.Name = "LocalCamera";
             this.LocalCamera.Size = new System.Drawing.Size(125, 105);
             this.LocalCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -161,7 +169,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(43, 105);
+            this.label2.Location = new System.Drawing.Point(44, 91);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 20);
             this.label2.TabIndex = 7;
@@ -173,7 +181,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(202, 104);
+            this.label3.Location = new System.Drawing.Point(203, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 8;
@@ -185,7 +193,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(367, 105);
+            this.label4.Location = new System.Drawing.Point(368, 91);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 20);
             this.label4.TabIndex = 9;
@@ -194,7 +202,7 @@
             // LFList
             // 
             this.LFList.FormattingEnabled = true;
-            this.LFList.Location = new System.Drawing.Point(184, 259);
+            this.LFList.Location = new System.Drawing.Point(185, 245);
             this.LFList.Name = "LFList";
             this.LFList.Size = new System.Drawing.Size(125, 21);
             this.LFList.TabIndex = 12;
@@ -202,7 +210,7 @@
             // YTList
             // 
             this.YTList.FormattingEnabled = true;
-            this.YTList.Location = new System.Drawing.Point(340, 259);
+            this.YTList.Location = new System.Drawing.Point(341, 245);
             this.YTList.Name = "YTList";
             this.YTList.Size = new System.Drawing.Size(125, 21);
             this.YTList.TabIndex = 13;
@@ -222,7 +230,7 @@
             // 
             // editLF
             // 
-            this.editLF.Location = new System.Drawing.Point(184, 286);
+            this.editLF.Location = new System.Drawing.Point(185, 272);
             this.editLF.Name = "editLF";
             this.editLF.Size = new System.Drawing.Size(125, 23);
             this.editLF.TabIndex = 23;
@@ -232,7 +240,7 @@
             // 
             // editYT
             // 
-            this.editYT.Location = new System.Drawing.Point(340, 286);
+            this.editYT.Location = new System.Drawing.Point(341, 272);
             this.editYT.Name = "editYT";
             this.editYT.Size = new System.Drawing.Size(125, 23);
             this.editYT.TabIndex = 24;
@@ -243,7 +251,7 @@
             // lfPicture
             // 
             this.lfPicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.lfPicture.Location = new System.Drawing.Point(184, 137);
+            this.lfPicture.Location = new System.Drawing.Point(185, 123);
             this.lfPicture.Name = "lfPicture";
             this.lfPicture.Size = new System.Drawing.Size(125, 105);
             this.lfPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -253,7 +261,7 @@
             // ytPicture
             // 
             this.ytPicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ytPicture.Location = new System.Drawing.Point(340, 137);
+            this.ytPicture.Location = new System.Drawing.Point(341, 123);
             this.ytPicture.Name = "ytPicture";
             this.ytPicture.Size = new System.Drawing.Size(125, 105);
             this.ytPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -263,9 +271,9 @@
             // livePicture
             // 
             this.livePicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.livePicture.Location = new System.Drawing.Point(29, 322);
+            this.livePicture.Location = new System.Drawing.Point(105, 313);
             this.livePicture.Name = "livePicture";
-            this.livePicture.Size = new System.Drawing.Size(255, 215);
+            this.livePicture.Size = new System.Drawing.Size(335, 215);
             this.livePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.livePicture.TabIndex = 28;
             this.livePicture.TabStop = false;
@@ -332,7 +340,7 @@
             this.groupBox1.Controls.Add(this.LA1);
             this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(510, 109);
+            this.groupBox1.Location = new System.Drawing.Point(511, 95);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(328, 200);
             this.groupBox1.TabIndex = 33;
@@ -342,7 +350,7 @@
             // LFiles
             // 
             this.LFiles.Enabled = true;
-            this.LFiles.Location = new System.Drawing.Point(184, 137);
+            this.LFiles.Location = new System.Drawing.Point(185, 123);
             this.LFiles.Name = "LFiles";
             this.LFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("LFiles.OcxState")));
             this.LFiles.Size = new System.Drawing.Size(125, 105);
@@ -351,11 +359,79 @@
             // YTFiles
             // 
             this.YTFiles.Enabled = true;
-            this.YTFiles.Location = new System.Drawing.Point(340, 137);
+            this.YTFiles.Location = new System.Drawing.Point(341, 123);
             this.YTFiles.Name = "YTFiles";
             this.YTFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("YTFiles.OcxState")));
             this.YTFiles.Size = new System.Drawing.Size(125, 105);
             this.YTFiles.TabIndex = 27;
+            // 
+            // logoBox
+            // 
+            this.logoBox.BackColor = System.Drawing.Color.Transparent;
+            this.logoBox.Location = new System.Drawing.Point(12, 458);
+            this.logoBox.Name = "logoBox";
+            this.logoBox.Size = new System.Drawing.Size(70, 70);
+            this.logoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.logoBox.TabIndex = 34;
+            this.logoBox.TabStop = false;
+            // 
+            // categoryList
+            // 
+            this.categoryList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.categoryList.FormattingEnabled = true;
+            this.categoryList.Location = new System.Drawing.Point(6, 28);
+            this.categoryList.Name = "categoryList";
+            this.categoryList.Size = new System.Drawing.Size(262, 21);
+            this.categoryList.TabIndex = 35;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.editPLBtn);
+            this.groupBox2.Controls.Add(this.newPLBtn);
+            this.groupBox2.Controls.Add(this.PLList);
+            this.groupBox2.Controls.Add(this.categoryList);
+            this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(470, 313);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(369, 215);
+            this.groupBox2.TabIndex = 36;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Playlist";
+            // 
+            // PLList
+            // 
+            this.PLList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.PLList.FormattingEnabled = true;
+            this.PLList.Location = new System.Drawing.Point(7, 56);
+            this.PLList.Name = "PLList";
+            this.PLList.Size = new System.Drawing.Size(261, 134);
+            this.PLList.TabIndex = 36;
+            // 
+            // newPLBtn
+            // 
+            this.newPLBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.newPLBtn.ForeColor = System.Drawing.Color.Black;
+            this.newPLBtn.Location = new System.Drawing.Point(281, 42);
+            this.newPLBtn.Name = "newPLBtn";
+            this.newPLBtn.Size = new System.Drawing.Size(75, 51);
+            this.newPLBtn.TabIndex = 37;
+            this.newPLBtn.Text = "New Playlist";
+            this.newPLBtn.UseVisualStyleBackColor = true;
+            this.newPLBtn.Click += new System.EventHandler(this.newPLBtn_Click);
+            // 
+            // editPLBtn
+            // 
+            this.editPLBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.editPLBtn.ForeColor = System.Drawing.Color.Black;
+            this.editPLBtn.Location = new System.Drawing.Point(281, 125);
+            this.editPLBtn.Name = "editPLBtn";
+            this.editPLBtn.Size = new System.Drawing.Size(75, 51);
+            this.editPLBtn.TabIndex = 38;
+            this.editPLBtn.Text = "Edit Playlist";
+            this.editPLBtn.UseVisualStyleBackColor = true;
+            this.editPLBtn.Click += new System.EventHandler(this.editPLBtn_Click);
             // 
             // Form1
             // 
@@ -363,7 +439,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Broadcaster.Properties.Resources.wallpaper11;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(904, 559);
+            this.ClientSize = new System.Drawing.Size(862, 554);
+            this.Controls.Add(this.logoBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.livePicture);
             this.Controls.Add(this.lfPicture);
@@ -380,11 +457,15 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.ytPicture);
             this.Controls.Add(this.YTFiles);
+            this.Controls.Add(this.groupBox2);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "INDES - Broadcaster";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -395,6 +476,8 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.LFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -430,6 +513,12 @@
         private System.Windows.Forms.Button LA3;
         private System.Windows.Forms.ToolStripMenuItem configurationMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox logoBox;
+        private System.Windows.Forms.ComboBox categoryList;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ListBox PLList;
+        private System.Windows.Forms.Button editPLBtn;
+        private System.Windows.Forms.Button newPLBtn;
     }
 }
 

@@ -101,22 +101,52 @@ namespace Broadcaster
                     titleLabel.Text = values[0];
                     this.Text = values[0];
 
+                    // Logo
+                    if (values[1] != "logo1.png" || values[1] != "")
+                    {
+                        Console.WriteLine("Info: Custom Logo detected. Using custom images directory.");
+                        string logoImage = userImagesPath + values[1];
+                        if (File.Exists(logoImage))
+                        {
+                            Console.WriteLine("Info: Loading logo image.");
+                            logoBox.Image = Image.FromFile(logoImage);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Info: Couldn't find logo image.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Info: Using default images directory.");
+                        string logoImage = ImagesPath + values[1];
+                        if (File.Exists(logoImage))
+                        {
+                            Console.WriteLine("Info: Loading logo image.");
+                            logoBox.Image = Image.FromFile(logoImage);
+                        }
+                    }
+
                     // Fundo
-                    if (values[2] != "wallpaper1.jpg")
+                    if (values[2] != "wallpaper1.jpg" || values[2] != "")
                     {
                         Console.WriteLine("Info: Custom background detected. Using custom images directory.");
                         string backgroundImage = userImagesPath + values[2];
-                        this.BackgroundImage = Image.FromFile(backgroundImage);
+                        if (File.Exists(backgroundImage))
+                        {
+                            Console.WriteLine("Info: Loading background image.");
+                            this.BackgroundImage = Image.FromFile(backgroundImage);
+                        }
                     }
                     else
                     {
                         Console.WriteLine("Info: Using default images directory.");
                         string backgroundImage = ImagesPath + values[2];
-                        this.BackgroundImage = Image.FromFile(backgroundImage);
-                    }
-
-                    // Logo
-                    // ...
+                        if (File.Exists(backgroundImage))
+                        {
+                            this.BackgroundImage = Image.FromFile(backgroundImage);
+                        }
+                    }                                                          
 
                     // Webcam
                     selectedWebCam = Int32.Parse(values[3]);
@@ -424,10 +454,24 @@ namespace Broadcaster
                 ytPicture.Image = Resources.offline;
                 ytPicture.Show();
             }
+        }
 
-            
-            //YTFiles.URL = "https://www.youtube.com/v/3cj-hjYEASk?autoplay=1&showinfo=0&controls=0";
-            //YTFiles.settings.volume = 0;
+        /*
+        *   Função para abrir uma janela de criação de playlist
+        */
+        private void newPLBtn_Click(object sender, EventArgs e)
+        {
+            ListPL listPL = new ListPL("");
+            listPL.Show();
+        }
+
+        /*
+        *   Função para abrir uma janela de edição de playlist
+        */
+        private void editPLBtn_Click(object sender, EventArgs e)
+        {
+            ListPL listPL = new ListPL("");
+            listPL.Show();
         }
 
         /*============================================================================================
@@ -457,6 +501,6 @@ namespace Broadcaster
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
+        }     
     }
 }

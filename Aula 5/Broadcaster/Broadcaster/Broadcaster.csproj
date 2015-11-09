@@ -89,6 +89,12 @@
     <Compile Include="ListLF.Designer.cs">
       <DependentUpon>ListLF.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListPL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListPL.Designer.cs">
+      <DependentUpon>ListPL.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListYT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListLF.resx">
       <DependentUpon>ListLF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListPL.resx">
+      <DependentUpon>ListPL.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListYT.resx">
       <DependentUpon>ListYT.cs</DependentUpon>
@@ -174,6 +183,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\offline.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
