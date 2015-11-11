@@ -27,5 +27,5 @@ Exercícos e trabalhos realizados para a disciplina INDES (Interfaces e Desing) 
 
 ### Autores ###
 
-* Mário Teixeira [1090626](1090626@isep.ipp.pt)
-* Hugo Santos [1091330](1091330@isep.ipp.pt)
+* Mário Teixeira [1090626](mailto:1090626@isep.ipp.pt)
+* Hugo Santos [1091330](mailto:1091330@isep.ipp.pt)
