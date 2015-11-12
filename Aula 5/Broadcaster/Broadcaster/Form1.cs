@@ -199,7 +199,7 @@ namespace Broadcaster
         private void fillLists(object sender, EventArgs e)
         {
             string lfList = "videos.txt";
-            string ytList = "youtube.txt";
+            string ytList = "links.txt";
             string lfPathList = lfPath + lfList;
             string ytPathList = ytPath + ytList;
 
@@ -227,6 +227,34 @@ namespace Broadcaster
             else
             {
                 Console.WriteLine("Info: File " + lfPathList + " doesn't exist.");
+            }
+
+            if (File.Exists(ytPathList))
+            {
+                Console.WriteLine("Info: File " + ytPathList + " exists.");
+
+                //Ler valores dentro do ficheiro
+                string[] values = File.ReadAllText(ytPathList).Split(';');
+
+                if (values.Length > 0)
+                {
+                    YTList.Items.Clear();
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        if (values[i] != "")
+                        {
+                            string[] aux = values[i].Split('#');
+                            string listItem = aux[0] + " - " + aux[1];
+                            YTList.Items.Add(listItem);
+                        }
+                    }
+
+                    //YTList.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Info: File " + ytPathList + " doesn't exist.");
             }
         }
 
@@ -501,6 +529,12 @@ namespace Broadcaster
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }     
-    }
+        }
+
+        private void PLBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+      }
 }

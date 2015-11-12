@@ -47,14 +47,8 @@ namespace Broadcaster
                     {
                         if (values[i] != "")
                         {
-                            ListViewItem item1 = new ListViewItem("Something");
-                            item1.SubItems.Add("SubItem1a");
-                            item1.SubItems.Add("SubItem1a");
-                            
-                            ListViewItem item2 = new ListViewItem("Something2");
-                            item2.SubItems.Add("SubItem2a");
-                            
-                            listView1.Items.AddRange(new ListViewItem[] { item1, item2});
+                            ListViewItem itm = new ListViewItem(values[i]);
+                            listView1.Items.Add(itm);
                         }
                     }
 
@@ -72,5 +66,33 @@ namespace Broadcaster
             addyt.Show();
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+            string fileList     = "links.txt";
+            string fullPathList = path + fileList;
+            string linksList   = "";
+            foreach (ListViewItem eachItem in listView1.SelectedItems)
+            {  
+                //Apagar da lista
+                listView1.Items.Remove(eachItem);
+            }
+            //Limpar o ficheiro com a lista
+            if (File.Exists(fullPathList))
+            {
+                File.WriteAllText(fullPathList, "");
+            }    
+            //mete numa string todos os items da lista separados por um ";"
+            foreach (ListViewItem item in listView1.Items)
+            {
+                 linksList   += item.Text + ";";
+            }
+            //Criar novo ficheiro com a lista
+            TextWriter tw = new StreamWriter(fullPathList, true);
+            tw.Write(linksList);
+            tw.Close();
+        }
     }
+         
 }

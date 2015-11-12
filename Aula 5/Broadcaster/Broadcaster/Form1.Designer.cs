@@ -61,9 +61,9 @@
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.categoryList = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.PLList = new System.Windows.Forms.ListBox();
-            this.newPLBtn = new System.Windows.Forms.Button();
             this.editPLBtn = new System.Windows.Forms.Button();
+            this.newPLBtn = new System.Windows.Forms.Button();
+            this.PLList = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lfPicture)).BeginInit();
@@ -289,6 +289,7 @@
             this.PLBtn.TabIndex = 29;
             this.PLBtn.Text = "PL";
             this.PLBtn.UseVisualStyleBackColor = false;
+            this.PLBtn.Click += new System.EventHandler(this.PLBtn_Click);
             // 
             // LA1
             // 
@@ -400,14 +401,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Playlist";
             // 
-            // PLList
+            // editPLBtn
             // 
-            this.PLList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.PLList.FormattingEnabled = true;
-            this.PLList.Location = new System.Drawing.Point(7, 56);
-            this.PLList.Name = "PLList";
-            this.PLList.Size = new System.Drawing.Size(261, 134);
-            this.PLList.TabIndex = 36;
+            this.editPLBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.editPLBtn.ForeColor = System.Drawing.Color.Black;
+            this.editPLBtn.Location = new System.Drawing.Point(281, 125);
+            this.editPLBtn.Name = "editPLBtn";
+            this.editPLBtn.Size = new System.Drawing.Size(75, 51);
+            this.editPLBtn.TabIndex = 38;
+            this.editPLBtn.Text = "Edit Playlist";
+            this.editPLBtn.UseVisualStyleBackColor = true;
+            this.editPLBtn.Click += new System.EventHandler(this.editPLBtn_Click);
             // 
             // newPLBtn
             // 
@@ -421,17 +425,14 @@
             this.newPLBtn.UseVisualStyleBackColor = true;
             this.newPLBtn.Click += new System.EventHandler(this.newPLBtn_Click);
             // 
-            // editPLBtn
+            // PLList
             // 
-            this.editPLBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.editPLBtn.ForeColor = System.Drawing.Color.Black;
-            this.editPLBtn.Location = new System.Drawing.Point(281, 125);
-            this.editPLBtn.Name = "editPLBtn";
-            this.editPLBtn.Size = new System.Drawing.Size(75, 51);
-            this.editPLBtn.TabIndex = 38;
-            this.editPLBtn.Text = "Edit Playlist";
-            this.editPLBtn.UseVisualStyleBackColor = true;
-            this.editPLBtn.Click += new System.EventHandler(this.editPLBtn_Click);
+            this.PLList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.PLList.FormattingEnabled = true;
+            this.PLList.Location = new System.Drawing.Point(7, 56);
+            this.PLList.Name = "PLList";
+            this.PLList.Size = new System.Drawing.Size(261, 134);
+            this.PLList.TabIndex = 36;
             // 
             // Form1
             // 

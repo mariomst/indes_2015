@@ -44,7 +44,7 @@ namespace Broadcaster
 	        {
 	            Console.WriteLine(match.Value);
                 TextWriter tw = new StreamWriter(fullPathList, true);
-                tw.Write(textBox1.Text + " - " + textBox2.Text + ";");
+                tw.Write(textBox1.Text + " # " + textBox2.Text + ";");
                 tw.Close();
                 this.Close();
             }
