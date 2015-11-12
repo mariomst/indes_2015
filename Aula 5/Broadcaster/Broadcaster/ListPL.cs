@@ -18,6 +18,7 @@ namespace Broadcaster
         private string LFpath;              //Caminho para o diretório com a lista de ficheiros locais.
         private string YTpath;              //Caminho para o diretório com a lista de links Youtube.
         private string PLpath;              //Caminho para o diretório das Playlists.
+        private string fileWriter;          //Texto a ser escrito no ficheiro da playlist.
 
         public ListPL(string existingCategory)
         {
@@ -27,6 +28,17 @@ namespace Broadcaster
             LoadPlaylist();
             LoadLocalFilesList();
             LoadYoutubeList();
+
+            plList.Scrollable = true;
+            plList.View = View.Details;
+
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "col1";
+            header.Width = plList.Width;
+            plList.Columns.Add(header);
+            plList.HeaderStyle = ColumnHeaderStyle.None;
+            plList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         /*============================================================================================
@@ -100,11 +112,11 @@ namespace Broadcaster
                         if (values[i] != "")
                         {
                             //Output para a consola (Apenas para testes).
-                            Console.WriteLine("Info: Adding " + values[i] + " to Local Files List.");
-
+                            Console.WriteLine("Info: Adding " + values[i] + " to Local Files List.");               
+                         
                             //Adicionar a lista o item.
                             ListViewItem itm = new ListViewItem(values[i]);
-                            listBox2.Items.Add(itm.Text);
+                            lfList.Items.Add(itm.Text);
                         }
                     }
                 }
@@ -116,7 +128,40 @@ namespace Broadcaster
         */
         private void LoadYoutubeList()
         {
-            //...
+            //Definir o ficheiro a carregar e a sua localização.
+            string fileName = "links.txt";
+            string filePath = YTpath + fileName;
+
+            //Verificar se o ficheiro existe
+            bool fileExists = checkFile(filePath);
+
+            if (fileExists == true)
+            {
+                //Obter os valores dentro do ficheiro
+                //Todos os ficheiros estão separados por ; então fazemos split para obter cada um dos ficheiros
+                string[] values = File.ReadAllText(filePath).Split(';');
+
+                //Se existirem ficheiros para inserir na lista
+                if (values.Length > 0)
+                {
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        if (values[i] != "")
+                        {
+                            //Separar o nome do url
+                            string[] info = values[i].Split('#');
+                            string item   = info[0] + " - " + info[1];  
+
+                            //Output para a consola (Apenas para testes).
+                            Console.WriteLine("Info: Adding youtube url: " + info[1] + " to Youtube List.");
+
+                            //Adicionar a lista o item.
+                            ListViewItem itm = new ListViewItem(item);
+                            ytList.Items.Add(itm.Text);
+                        }
+                    }
+                }
+            }
         }
 
         /*
@@ -141,11 +186,44 @@ namespace Broadcaster
         }
 
         /*
-        *   Função para validar a playlist 
+        *   Função para validações 
         */
-        private void validatePlaylist()
+        private bool validate(string type, string args)
         {
-            //...
+            switch(type)
+            {
+                case "ListSize":
+                    //Verificar se a lista tem items.
+                    if (args == "LF")
+                    {
+                        int sizeLF = lfList.Items.Count;
+                        if (sizeLF > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (args == "YT")
+                    {
+                        int sizeYT = ytList.Items.Count;
+                        if (sizeYT > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    return false;
+                default:
+                    //Output para a consola (Apenas para testes).
+                    Console.WriteLine("Info: Validation option invalid. Returning false.");
+                    return false;
+            }
         }
 
         /*
@@ -153,26 +231,157 @@ namespace Broadcaster
         */
         private void writeFile()
         {
-            //...
+            //Guardar ficheiros video numa lista
+            string plfile   = "playlist.txt";
+            string catfile  = "categories.txt";
+            string plpath   = PLpath + plfile;
+            string catpath  = PLpath + catfile;
+
+            //Se a lista tiver items.
+            if (plList.Items.Count > 0)
+            {
+                fileWriter = "<" + PLname.Text + ">";
+
+                foreach(ListViewItem item in plList.Items)
+                { 
+                    fileWriter += item.Text + ";";
+                }
+
+                //Criar ficheiro de playlist
+                TextWriter tw1 = new StreamWriter(plpath, true);
+                tw1.Write(fileWriter);
+                tw1.Close();
+
+                fileWriter = PLname.Text + ";";
+
+                //Criar ficheiro de categorias
+                TextWriter tw2 = new StreamWriter(catpath, true);
+                tw2.Write(fileWriter);
+                tw2.Close();
+            }
+            else
+            {
+                //Output para a consola (Apenas para testes).
+                Console.WriteLine("Info: Validation option invalid. Returning false.");
+
+                DialogResult information = MessageBox.Show("The Playlist is empty.",
+                      "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         /*============================================================================================
         *= Botões
         *=============================================================================================*/
         /*
-        *   Função para adicionar das listas à Playlits.
+        *   Função para adicionar da lista Local Files à Playlits.
         */
-        private void addBtn_Click(object sender, EventArgs e)
+        private void addLFBtn_Click(object sender, EventArgs e)
+        {
+            //Variáveis
+            bool check = false;           
+
+            //Verificar se existem elementos na lista Local Files
+            check = validate("ListSize", "LF");
+
+            if (check == true)
+            {
+                try
+                {          
+                    //Obter os items selecionados    
+                    foreach (ListViewItem item in lfList.SelectedItems)
+                    {
+                        //Anexar indicativo que o vídeo é local.
+                        string localFile = "[LF] " + item.Text;
+
+                        //Adicionar a lista o item.
+                        ListViewItem itm = new ListViewItem(localFile);
+                        plList.Items.Add(itm.Text);
+                        plList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    }                    
+                }
+                catch (ApplicationException)
+                {
+                    //Output para a consola (Apenas para testes).
+                    Console.WriteLine("Info: No selected item.");
+                }
+            }
+            else
+            {
+                DialogResult information = MessageBox.Show("No local files to add to playlist.",
+                      "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        /*
+        *   Função para remover da Playlit os Local Files.
+        */
+        private void removeLFBtn_Click(object sender, EventArgs e)
         {
             //...
         }
 
         /*
-        *   Função para remover da Playlit.
+        *   Função para adicionar da lista Youtube à Playlits.
         */
-        private void removeBtn_Click(object sender, EventArgs e)
+        private void addYTBtn_Click(object sender, EventArgs e)
+        {
+            //Variáveis
+            bool check = false;
+
+            //Verificar se existem elementos na lista Local Files
+            check = validate("ListSize", "YT");
+
+            if (check == true)
+            {
+                try
+                {
+                    //Obter os items selecionados    
+                    foreach (ListViewItem item in ytList.SelectedItems)
+                    {
+                        //Anexar indicativo que o vídeo é local.
+                        string webVideo = "[YT] " + item.Text;
+
+                        //Adicionar a lista o item.
+                        ListViewItem itm = new ListViewItem(webVideo);
+                        plList.Items.Add(itm.Text);
+                        plList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    }
+                }
+                catch (ApplicationException)
+                {
+                    //Output para a consola (Apenas para testes).
+                    Console.WriteLine("Info: No selected item.");
+                }
+            }
+            else
+            {
+                DialogResult information = MessageBox.Show("No youtube videos to add to playlist.",
+                      "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        /*
+        *   Função para remover da Playlit os videos Youtube.
+        */
+        private void removeYTBtn_Click(object sender, EventArgs e)
         {
             //...
+        }
+
+        /*
+        *   Função para mover um item para cima
+        */
+        private void upBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /*
+        *   Função para mover um item para baixo
+        */
+        private void downBtn_Click(object sender, EventArgs e)
+        {
+
         }
 
         /*
@@ -180,7 +389,7 @@ namespace Broadcaster
         */
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            //...
+            writeFile();
         }
 
         /*
@@ -199,6 +408,6 @@ namespace Broadcaster
                 case DialogResult.No:
                     break;
             }
-        }
+        }     
     }
 }
