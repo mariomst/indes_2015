@@ -373,7 +373,17 @@ namespace Broadcaster
         */
         private void upBtn_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                var currentIndex = plList.SelectedItems[0].Index;
+                var item = plList.Items[currentIndex];
+                if (currentIndex > 0)
+                {
+                    plList.Items.RemoveAt(currentIndex);
+                    plList.Items.Insert(currentIndex - 1, item);
+                }
+            }
+            catch (ApplicationException) { Console.WriteLine("nada selecionado"); }
         }
 
         /*
@@ -381,7 +391,17 @@ namespace Broadcaster
         */
         private void downBtn_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                var currentIndex = plList.SelectedItems[0].Index;
+                var item = plList.Items[currentIndex];
+                if (currentIndex < plList.Items.Count-1)
+                {
+                    plList.Items.RemoveAt(currentIndex);
+                    plList.Items.Insert(currentIndex + 1, item);
+                }
+            }
+            catch (ApplicationException) { Console.WriteLine("nada selecionado"); }
         }
 
         /*
@@ -389,7 +409,13 @@ namespace Broadcaster
         */
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            writeFile();
+            if(PLname.Text!="")    
+                writeFile();
+            else 
+            {
+                DialogResult error = MessageBox.Show("Playlist Name can't be empty. Insert name please.",
+                      "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /*
@@ -408,6 +434,16 @@ namespace Broadcaster
                 case DialogResult.No:
                     break;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem eachItem in plList.SelectedItems)
+            {
+                //Apagar da lista
+                plList.Items.Remove(eachItem);
+            }
+                
         }     
     }
 }

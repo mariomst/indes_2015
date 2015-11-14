@@ -32,19 +32,18 @@
             this.nameLabel = new System.Windows.Forms.Label();
             this.PLname = new System.Windows.Forms.TextBox();
             this.PLBox = new System.Windows.Forms.GroupBox();
+            this.plList = new System.Windows.Forms.ListView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lfList = new System.Windows.Forms.ListView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ytList = new System.Windows.Forms.ListView();
             this.saveBtn = new System.Windows.Forms.Button();
-            this.removeLFBtn = new System.Windows.Forms.Button();
             this.addLFBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
-            this.removeYTBtn = new System.Windows.Forms.Button();
             this.addYTBtn = new System.Windows.Forms.Button();
             this.downBtn = new System.Windows.Forms.Button();
             this.upBtn = new System.Windows.Forms.Button();
-            this.plList = new System.Windows.Forms.ListView();
-            this.lfList = new System.Windows.Forms.ListView();
-            this.ytList = new System.Windows.Forms.ListView();
+            this.button1 = new System.Windows.Forms.Button();
             this.PLBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -78,6 +77,19 @@
             this.PLBox.TabStop = false;
             this.PLBox.Text = "List";
             // 
+            // plList
+            // 
+            this.plList.AutoArrange = false;
+            this.plList.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.plList.LabelWrap = false;
+            this.plList.Location = new System.Drawing.Point(7, 27);
+            this.plList.Name = "plList";
+            this.plList.ShowGroups = false;
+            this.plList.Size = new System.Drawing.Size(292, 417);
+            this.plList.TabIndex = 0;
+            this.plList.UseCompatibleStateImageBehavior = false;
+            this.plList.View = System.Windows.Forms.View.Details;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lfList);
@@ -88,6 +100,16 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Local Files List";
+            // 
+            // lfList
+            // 
+            this.lfList.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.lfList.Location = new System.Drawing.Point(7, 25);
+            this.lfList.Name = "lfList";
+            this.lfList.Size = new System.Drawing.Size(292, 186);
+            this.lfList.TabIndex = 1;
+            this.lfList.UseCompatibleStateImageBehavior = false;
+            this.lfList.View = System.Windows.Forms.View.List;
             // 
             // groupBox2
             // 
@@ -100,6 +122,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Youtube List";
             // 
+            // ytList
+            // 
+            this.ytList.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.ytList.Location = new System.Drawing.Point(6, 25);
+            this.ytList.Name = "ytList";
+            this.ytList.Size = new System.Drawing.Size(292, 186);
+            this.ytList.TabIndex = 2;
+            this.ytList.UseCompatibleStateImageBehavior = false;
+            this.ytList.View = System.Windows.Forms.View.List;
+            // 
             // saveBtn
             // 
             this.saveBtn.BackgroundImage = global::Broadcaster.Properties.Resources.save;
@@ -110,17 +142,6 @@
             this.saveBtn.TabIndex = 10;
             this.saveBtn.UseVisualStyleBackColor = true;
             this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
-            // 
-            // removeLFBtn
-            // 
-            this.removeLFBtn.BackgroundImage = global::Broadcaster.Properties.Resources.left;
-            this.removeLFBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.removeLFBtn.Location = new System.Drawing.Point(346, 203);
-            this.removeLFBtn.Name = "removeLFBtn";
-            this.removeLFBtn.Size = new System.Drawing.Size(75, 65);
-            this.removeLFBtn.TabIndex = 9;
-            this.removeLFBtn.UseVisualStyleBackColor = true;
-            this.removeLFBtn.Click += new System.EventHandler(this.removeLFBtn_Click);
             // 
             // addLFBtn
             // 
@@ -143,17 +164,6 @@
             this.cancelBtn.TabIndex = 11;
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
-            // 
-            // removeYTBtn
-            // 
-            this.removeYTBtn.BackgroundImage = global::Broadcaster.Properties.Resources.left;
-            this.removeYTBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.removeYTBtn.Location = new System.Drawing.Point(346, 431);
-            this.removeYTBtn.Name = "removeYTBtn";
-            this.removeYTBtn.Size = new System.Drawing.Size(75, 65);
-            this.removeYTBtn.TabIndex = 12;
-            this.removeYTBtn.UseVisualStyleBackColor = true;
-            this.removeYTBtn.Click += new System.EventHandler(this.removeYTBtn_Click);
             // 
             // addYTBtn
             // 
@@ -188,38 +198,16 @@
             this.upBtn.UseVisualStyleBackColor = true;
             this.upBtn.Click += new System.EventHandler(this.upBtn_Click);
             // 
-            // plList
+            // button1
             // 
-            this.plList.AutoArrange = false;
-            this.plList.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plList.LabelWrap = false;
-            this.plList.Location = new System.Drawing.Point(7, 27);
-            this.plList.Name = "plList";
-            this.plList.ShowGroups = false;
-            this.plList.Size = new System.Drawing.Size(292, 417);
-            this.plList.TabIndex = 0;
-            this.plList.UseCompatibleStateImageBehavior = false;
-            this.plList.View = System.Windows.Forms.View.Details;
-            // 
-            // lfList
-            // 
-            this.lfList.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.lfList.Location = new System.Drawing.Point(7, 25);
-            this.lfList.Name = "lfList";
-            this.lfList.Size = new System.Drawing.Size(292, 186);
-            this.lfList.TabIndex = 1;
-            this.lfList.UseCompatibleStateImageBehavior = false;
-            this.lfList.View = System.Windows.Forms.View.List;
-            // 
-            // ytList
-            // 
-            this.ytList.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.ytList.Location = new System.Drawing.Point(6, 25);
-            this.ytList.Name = "ytList";
-            this.ytList.Size = new System.Drawing.Size(292, 186);
-            this.ytList.TabIndex = 2;
-            this.ytList.UseCompatibleStateImageBehavior = false;
-            this.ytList.View = System.Windows.Forms.View.List;
+            this.button1.BackgroundImage = global::Broadcaster.Properties.Resources.cancel;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button1.Location = new System.Drawing.Point(769, 264);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(55, 67);
+            this.button1.TabIndex = 16;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ListPL
             // 
@@ -227,13 +215,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(845, 584);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.upBtn);
             this.Controls.Add(this.downBtn);
             this.Controls.Add(this.addYTBtn);
-            this.Controls.Add(this.removeYTBtn);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.saveBtn);
-            this.Controls.Add(this.removeLFBtn);
             this.Controls.Add(this.addLFBtn);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -262,15 +249,14 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button addLFBtn;
-        private System.Windows.Forms.Button removeLFBtn;
         private System.Windows.Forms.Button saveBtn;
         private System.Windows.Forms.Button cancelBtn;
-        private System.Windows.Forms.Button removeYTBtn;
         private System.Windows.Forms.Button addYTBtn;
         private System.Windows.Forms.Button downBtn;
         private System.Windows.Forms.Button upBtn;
         private System.Windows.Forms.ListView plList;
         private System.Windows.Forms.ListView lfList;
         private System.Windows.Forms.ListView ytList;
+        private System.Windows.Forms.Button button1;
     }
 }
