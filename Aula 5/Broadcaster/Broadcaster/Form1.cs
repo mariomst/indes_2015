@@ -1,9 +1,6 @@
 ﻿//Libs de Sistema
 using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Net;
 using System.Drawing;
 using Broadcaster.Properties;
 using System.IO;
@@ -11,10 +8,6 @@ using System.IO;
 //Libs de Aforge
 using AForge.Video;
 using AForge.Video.DirectShow;
-using AForge.Video.FFMPEG;
-
-//Libs Adicionais
-using MjpegProcessor;
 
 namespace Broadcaster
 {
@@ -26,7 +19,9 @@ namespace Broadcaster
         private string userImagesPath;
         private string lfPath;
         private string ytPath;
-        
+        private string plPath;
+        private int indexPL;
+
         // WebCam
         private FilterInfoCollection webcamDevices;
         private VideoCaptureDevice webcamSource     = null;
@@ -60,6 +55,14 @@ namespace Broadcaster
             lfPicture.Image   = Resources.offline;
             ytPicture.Image   = Resources.offline;
             livePicture.Image = Resources.offline;
+
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "col1";
+            header.Width = PLList.Width;
+            PLList.Columns.Add(header);
+            PLList.HeaderStyle = ColumnHeaderStyle.None;
+            PLList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         /*============================================================================================
@@ -71,11 +74,12 @@ namespace Broadcaster
         private void getPaths()
         {
             string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            configPath = parentDirectory + "\\Config\\";
+            configPath     = parentDirectory + "\\Config\\";
             userImagesPath = parentDirectory + "\\Images\\User\\";
-            ImagesPath = parentDirectory + "\\Images\\";
-            lfPath = parentDirectory + "\\Videos\\LF\\";
-            ytPath = parentDirectory + "\\Videos\\YT\\";            
+            ImagesPath     = parentDirectory + "\\Images\\";
+            lfPath         = parentDirectory + "\\Videos\\LF\\";
+            ytPath         = parentDirectory + "\\Videos\\YT\\";
+            plPath         = parentDirectory + "\\Videos\\PL\\";       
         }
 
         /*
@@ -200,8 +204,11 @@ namespace Broadcaster
         {
             string lfList = "videos.txt";
             string ytList = "links.txt";
+            string catList = "categories.txt";
+
             string lfPathList = lfPath + lfList;
             string ytPathList = ytPath + ytList;
+            string catPathList = plPath + catList;
 
             if (File.Exists(lfPathList))
             {
@@ -249,13 +256,117 @@ namespace Broadcaster
                         }
                     }
 
-                    //YTList.SelectedIndex = 0;
+                    YTList.SelectedIndex = 0;
                 }
             }
             else
             {
                 Console.WriteLine("Info: File " + ytPathList + " doesn't exist.");
             }
+
+            if (File.Exists(catPathList))
+            {
+                Console.WriteLine("Info: File " + catPathList + " exists.");
+
+                //Ler valores dentro do ficheiro
+                string[] values = File.ReadAllText(catPathList).Split(';');
+
+                if (values.Length > 0)
+                {
+                    categoryList.Items.Clear();
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        if (values[i] != "")
+                        {                            
+                            categoryList.Items.Add(values[i]);
+                        }
+                    }
+
+                    categoryList.SelectedIndex = 0;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Info: File " + catPathList + " doesn't exist.");
+            }
+        }
+
+        /*
+        *   Função para preencher a playlist de acordo com a categoria
+        */
+        private void loadPlaylist()
+        {
+            string category     = categoryList.SelectedItem.ToString();
+            string playlist     = category + ".txt";
+            string plFilePath   = plPath + playlist;
+
+            //Limpar a playlist antes de carregar novos itens.
+            PLList.Items.Clear();
+
+            if (File.Exists(plFilePath))
+            {
+                Console.WriteLine("Info: File " + playlist + " exists.");
+
+                //Ler valores dentro do ficheiro
+                string[] values = File.ReadAllText(plFilePath).Split(';');
+
+                if (values.Length > 0)
+                {
+                    LFList.Items.Clear();
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        if (values[i] != "")
+                        {
+                            PLList.Items.Add(values[i]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Info: File " + playlist + " doesn't exist.");
+            }
+        }
+
+        /*
+        *   Função para carregar o ficheiro video ou url
+        */
+        private void loadPlaylistItem()
+        {
+            WMPLib.IWMPPlaylist playlist = live.playlistCollection.newPlaylist("pl");
+            WMPLib.IWMPMedia media;
+
+            foreach (ListViewItem item in PLList.Items)
+            {
+                string itemText = item.Text;
+
+                if (itemText.Contains("[LF]"))
+                {
+                    //é um ficheiro local
+                    //tratar da string
+                    string[] result = itemText.Split(new string[] { "[LF] " }, StringSplitOptions.None);
+                    string localFile = result[1];
+
+                    string videoPath = lfPath + localFile;
+
+                    media = live.newMedia(videoPath);
+                    playlist.appendItem(media);
+                }
+                if (itemText.Contains("[YT]"))
+                {
+                    //é um ficheiro youtube
+                    //tratar da string
+                    string urlAux = itemText.Substring(itemText.IndexOf("=") + 1);
+                    string newUrl = "https://www.youtube.com/v/" + urlAux + "?autoplay=1&showinfo=0&controls=0";
+
+                    media = live.newMedia(newUrl);
+                    playlist.appendItem(media);
+                }
+            }
+
+            livePicture.Hide();
+            live.currentPlaylist = playlist;
+            live.Ctlcontrols.play();
         }
 
         /*============================================================================================
@@ -533,8 +644,35 @@ namespace Broadcaster
 
         private void PLBtn_Click(object sender, EventArgs e)
         {
+            if (PLstate == false)
+            {
+                // Mudar o estado do botão
+                PLstate = true;
+                PLBtn.BackColor = System.Drawing.Color.Green;
 
+                loadPlaylistItem();
+            }
+            else
+            {
+                // Mudar o estado do botão
+                PLstate = false;
+                PLBtn.BackColor = System.Drawing.Color.Red;
+
+                // Parar o video
+                live.Ctlcontrols.stop();
+
+                // Alterar a janela live
+                livePicture.Image = Resources.offline;
+                livePicture.Show();
+
+                indexPL = 0;
+            }
         }
 
-      }
+        private void categoryList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            indexPL = 0;
+            loadPlaylist();
+        }
+    }
 }

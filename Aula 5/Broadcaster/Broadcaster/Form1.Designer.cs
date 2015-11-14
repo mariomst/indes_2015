@@ -63,7 +63,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.editPLBtn = new System.Windows.Forms.Button();
             this.newPLBtn = new System.Windows.Forms.Button();
-            this.PLList = new System.Windows.Forms.ListBox();
+            this.PLList = new System.Windows.Forms.ListView();
+            this.live = new AxWMPLib.AxWindowsMediaPlayer();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lfPicture)).BeginInit();
@@ -74,6 +75,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.live)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -271,9 +273,9 @@
             // livePicture
             // 
             this.livePicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.livePicture.Location = new System.Drawing.Point(105, 313);
+            this.livePicture.Location = new System.Drawing.Point(102, 313);
             this.livePicture.Name = "livePicture";
-            this.livePicture.Size = new System.Drawing.Size(335, 215);
+            this.livePicture.Size = new System.Drawing.Size(364, 215);
             this.livePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.livePicture.TabIndex = 28;
             this.livePicture.TabStop = false;
@@ -341,9 +343,9 @@
             this.groupBox1.Controls.Add(this.LA1);
             this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(511, 95);
+            this.groupBox1.Location = new System.Drawing.Point(494, 95);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(328, 200);
+            this.groupBox1.Size = new System.Drawing.Size(345, 200);
             this.groupBox1.TabIndex = 33;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Controls";
@@ -380,59 +382,72 @@
             // 
             this.categoryList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.categoryList.FormattingEnabled = true;
-            this.categoryList.Location = new System.Drawing.Point(6, 28);
+            this.categoryList.Location = new System.Drawing.Point(5, 28);
             this.categoryList.Name = "categoryList";
             this.categoryList.Size = new System.Drawing.Size(262, 21);
             this.categoryList.TabIndex = 35;
+            this.categoryList.SelectedIndexChanged += new System.EventHandler(this.categoryList_SelectedIndexChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.PLList);
             this.groupBox2.Controls.Add(this.editPLBtn);
             this.groupBox2.Controls.Add(this.newPLBtn);
-            this.groupBox2.Controls.Add(this.PLList);
             this.groupBox2.Controls.Add(this.categoryList);
             this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(470, 313);
+            this.groupBox2.Location = new System.Drawing.Point(494, 313);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(369, 215);
+            this.groupBox2.Size = new System.Drawing.Size(345, 215);
             this.groupBox2.TabIndex = 36;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Playlist";
             // 
             // editPLBtn
             // 
+            this.editPLBtn.BackgroundImage = global::Broadcaster.Properties.Resources.edit;
+            this.editPLBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.editPLBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.editPLBtn.ForeColor = System.Drawing.Color.Black;
-            this.editPLBtn.Location = new System.Drawing.Point(281, 125);
+            this.editPLBtn.Location = new System.Drawing.Point(280, 126);
             this.editPLBtn.Name = "editPLBtn";
-            this.editPLBtn.Size = new System.Drawing.Size(75, 51);
+            this.editPLBtn.Size = new System.Drawing.Size(50, 50);
             this.editPLBtn.TabIndex = 38;
-            this.editPLBtn.Text = "Edit Playlist";
             this.editPLBtn.UseVisualStyleBackColor = true;
             this.editPLBtn.Click += new System.EventHandler(this.editPLBtn_Click);
             // 
             // newPLBtn
             // 
+            this.newPLBtn.BackgroundImage = global::Broadcaster.Properties.Resources.Add;
+            this.newPLBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.newPLBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.newPLBtn.ForeColor = System.Drawing.Color.Black;
-            this.newPLBtn.Location = new System.Drawing.Point(281, 42);
+            this.newPLBtn.Location = new System.Drawing.Point(280, 60);
             this.newPLBtn.Name = "newPLBtn";
-            this.newPLBtn.Size = new System.Drawing.Size(75, 51);
+            this.newPLBtn.Size = new System.Drawing.Size(50, 50);
             this.newPLBtn.TabIndex = 37;
-            this.newPLBtn.Text = "New Playlist";
             this.newPLBtn.UseVisualStyleBackColor = true;
             this.newPLBtn.Click += new System.EventHandler(this.newPLBtn_Click);
             // 
             // PLList
             // 
-            this.PLList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.PLList.FormattingEnabled = true;
-            this.PLList.Location = new System.Drawing.Point(7, 56);
+            this.PLList.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PLList.Location = new System.Drawing.Point(6, 55);
             this.PLList.Name = "PLList";
-            this.PLList.Size = new System.Drawing.Size(261, 134);
-            this.PLList.TabIndex = 36;
+            this.PLList.Size = new System.Drawing.Size(261, 154);
+            this.PLList.TabIndex = 39;
+            this.PLList.UseCompatibleStateImageBehavior = false;
+            this.PLList.View = System.Windows.Forms.View.Details;
+            // 
+            // live
+            // 
+            this.live.Enabled = true;
+            this.live.Location = new System.Drawing.Point(102, 313);
+            this.live.Name = "live";
+            this.live.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("live.OcxState")));
+            this.live.Size = new System.Drawing.Size(364, 215);
+            this.live.TabIndex = 37;
             // 
             // Form1
             // 
@@ -459,6 +474,7 @@
             this.Controls.Add(this.ytPicture);
             this.Controls.Add(this.YTFiles);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.live);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -479,6 +495,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.live)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,9 +534,10 @@
         private System.Windows.Forms.PictureBox logoBox;
         private System.Windows.Forms.ComboBox categoryList;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListBox PLList;
         private System.Windows.Forms.Button editPLBtn;
         private System.Windows.Forms.Button newPLBtn;
+        private System.Windows.Forms.ListView PLList;
+        private AxWMPLib.AxWindowsMediaPlayer live;
     }
 }
 

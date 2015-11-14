@@ -21,6 +21,14 @@ namespace Broadcaster
             InitializeComponent();
             getVideoPath();
             loadVideosFile();
+
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "col1";
+            header.Width = listView1.Width;
+            listView1.Columns.Add(header);
+            listView1.HeaderStyle = ColumnHeaderStyle.None;
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         //Obter o diretório Videos do programa

@@ -232,7 +232,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ListPL";
-            this.Text = " Broadcaster: Edit Playlist";
+            this.Text = "Edit Playlist";
             this.PLBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

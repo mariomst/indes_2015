@@ -20,6 +20,13 @@ namespace Broadcaster
             getYTPath();
             this.Activated += new EventHandler(fillList);
 
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "col1";
+            header.Width = listView1.Width;
+            listView1.Columns.Add(header);
+            listView1.HeaderStyle = ColumnHeaderStyle.None;
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void getYTPath()

@@ -232,7 +232,7 @@ namespace Broadcaster
         private void writeFile()
         {
             //Guardar ficheiros video numa lista
-            string plfile   = "playlist.txt";
+            string plfile   = PLname.Text + ".txt";
             string catfile  = "categories.txt";
             string plpath   = PLpath + plfile;
             string catpath  = PLpath + catfile;
@@ -240,8 +240,6 @@ namespace Broadcaster
             //Se a lista tiver items.
             if (plList.Items.Count > 0)
             {
-                fileWriter = "<" + PLname.Text + ">";
-
                 foreach(ListViewItem item in plList.Items)
                 { 
                     fileWriter += item.Text + ";";
@@ -258,6 +256,11 @@ namespace Broadcaster
                 TextWriter tw2 = new StreamWriter(catpath, true);
                 tw2.Write(fileWriter);
                 tw2.Close();
+
+                DialogResult information = MessageBox.Show("Playlist saved. Closing window.",
+                      "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.Close();
             }
             else
             {
