@@ -200,8 +200,8 @@ namespace Broadcaster
         {
             image1 = (Bitmap)eventargs.Frame.Clone();
             image2 = (Bitmap)eventargs.Frame.Clone();
-            image1.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
-            image2.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
+            //image1.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
+            //image2.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
             LocalCamera.Image = image1;
             LiveCamera.Image = image2;
         }
