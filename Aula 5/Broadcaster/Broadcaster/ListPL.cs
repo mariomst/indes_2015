@@ -23,9 +23,8 @@ namespace Broadcaster
         public ListPL(string existingCategory)
         {
             InitializeComponent();
-            checkExistingCategory(existingCategory);
             LoadFilePaths();
-            LoadPlaylist();
+            checkExistingCategory(existingCategory);            
             LoadLocalFilesList();
             LoadYoutubeList();
 
@@ -51,13 +50,14 @@ namespace Broadcaster
         {
             if (existingCategory != "")
             {
-                category    = existingCategory;
-                editMode    = true;
+                category = existingCategory;
+                editMode = true;
                 PLname.Text = category;
+                LoadPlaylist(category);
             }
             else
             {
-                editMode    = false;
+                editMode = false;
             }
         }
 
@@ -78,13 +78,39 @@ namespace Broadcaster
         /*
         *   Função para carregar a playlist (caso esteja no modo de edição de uma existente)
         */
-        private void LoadPlaylist()
+        private void LoadPlaylist(string category)
         {
-            if (editMode == true)
+            string playlist = category + ".txt";
+            string plFilePath = PLpath + playlist;
+
+            //Limpar a playlist antes de carregar novos itens.
+            plList.Items.Clear();
+
+            if (File.Exists(plFilePath))
             {
-                //...
+                Console.WriteLine("Info: File " + playlist + " exists.");
+
+                //Ler valores dentro do ficheiro
+                string[] values = File.ReadAllText(plFilePath).Split(';');
+
+                if (values.Length > 0)
+                {
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        Console.WriteLine(values[i]);
+                        if (values[i] != "")
+                        {
+                            plList.Items.Add(values[i]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Info: File " + playlist + " doesn't exist.");
             }
         }
+
 
         /*
         *   Função para carregar a lista de ficheiros locais.
@@ -102,7 +128,7 @@ namespace Broadcaster
             {
                 //Obter os valores dentro do ficheiro
                 //Todos os ficheiros estão separados por ; então fazemos split para obter cada um dos ficheiros
-                string[] values = File.ReadAllText(filePath).Split(';');    
+                string[] values = File.ReadAllText(filePath).Split(';');
 
                 //Se existirem ficheiros para inserir na lista
                 if (values.Length > 0)
@@ -112,15 +138,15 @@ namespace Broadcaster
                         if (values[i] != "")
                         {
                             //Output para a consola (Apenas para testes).
-                            Console.WriteLine("Info: Adding " + values[i] + " to Local Files List.");               
-                         
+                            Console.WriteLine("Info: Adding " + values[i] + " to Local Files List.");
+
                             //Adicionar a lista o item.
                             ListViewItem itm = new ListViewItem(values[i]);
                             lfList.Items.Add(itm.Text);
                         }
                     }
                 }
-            }            
+            }
         }
 
         /*
@@ -150,7 +176,7 @@ namespace Broadcaster
                         {
                             //Separar o nome do url
                             string[] info = values[i].Split('#');
-                            string item   = info[0] + " - " + info[1];  
+                            string item = info[0] + " - " + info[1];
 
                             //Output para a consola (Apenas para testes).
                             Console.WriteLine("Info: Adding youtube url: " + info[1] + " to Youtube List.");
@@ -190,7 +216,7 @@ namespace Broadcaster
         */
         private bool validate(string type, string args)
         {
-            switch(type)
+            switch (type)
             {
                 case "ListSize":
                     //Verificar se a lista tem items.
@@ -232,16 +258,16 @@ namespace Broadcaster
         private void writeFile()
         {
             //Guardar ficheiros video numa lista
-            string plfile   = PLname.Text + ".txt";
-            string catfile  = "categories.txt";
-            string plpath   = PLpath + plfile;
-            string catpath  = PLpath + catfile;
+            string plfile = PLname.Text + ".txt";
+            string catfile = "categories.txt";
+            string plpath = PLpath + plfile;
+            string catpath = PLpath + catfile;
 
             //Se a lista tiver items.
             if (plList.Items.Count > 0)
             {
-                foreach(ListViewItem item in plList.Items)
-                { 
+                foreach (ListViewItem item in plList.Items)
+                {
                     fileWriter += item.Text + ";";
                 }
 
@@ -281,7 +307,7 @@ namespace Broadcaster
         private void addLFBtn_Click(object sender, EventArgs e)
         {
             //Variáveis
-            bool check = false;           
+            bool check = false;
 
             //Verificar se existem elementos na lista Local Files
             check = validate("ListSize", "LF");
@@ -289,7 +315,7 @@ namespace Broadcaster
             if (check == true)
             {
                 try
-                {          
+                {
                     //Obter os items selecionados    
                     foreach (ListViewItem item in lfList.SelectedItems)
                     {
@@ -300,7 +326,7 @@ namespace Broadcaster
                         ListViewItem itm = new ListViewItem(localFile);
                         plList.Items.Add(itm.Text);
                         plList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-                    }                    
+                    }
                 }
                 catch (ApplicationException)
                 {
@@ -313,14 +339,6 @@ namespace Broadcaster
                 DialogResult information = MessageBox.Show("No local files to add to playlist.",
                       "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-        }
-
-        /*
-        *   Função para remover da Playlit os Local Files.
-        */
-        private void removeLFBtn_Click(object sender, EventArgs e)
-        {
-            //...
         }
 
         /*
@@ -364,11 +382,16 @@ namespace Broadcaster
         }
 
         /*
-        *   Função para remover da Playlit os videos Youtube.
+        *   Função para remover os items da lista
         */
-        private void removeYTBtn_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            //...
+            foreach (ListViewItem eachItem in plList.SelectedItems)
+            {
+                //Apagar da lista
+                plList.Items.Remove(eachItem);
+            }
+
         }
 
         /*
@@ -398,7 +421,7 @@ namespace Broadcaster
             {
                 var currentIndex = plList.SelectedItems[0].Index;
                 var item = plList.Items[currentIndex];
-                if (currentIndex < plList.Items.Count-1)
+                if (currentIndex < plList.Items.Count - 1)
                 {
                     plList.Items.RemoveAt(currentIndex);
                     plList.Items.Insert(currentIndex + 1, item);
@@ -412,9 +435,9 @@ namespace Broadcaster
         */
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            if(PLname.Text!="")    
+            if (PLname.Text != "")
                 writeFile();
-            else 
+            else
             {
                 DialogResult error = MessageBox.Show("Playlist Name can't be empty. Insert name please.",
                       "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -438,15 +461,5 @@ namespace Broadcaster
                     break;
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem eachItem in plList.SelectedItems)
-            {
-                //Apagar da lista
-                plList.Items.Remove(eachItem);
-            }
-                
-        }     
     }
 }

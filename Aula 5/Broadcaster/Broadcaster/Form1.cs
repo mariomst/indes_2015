@@ -25,9 +25,11 @@ namespace Broadcaster
         // WebCam
         private FilterInfoCollection webcamDevices;
         private VideoCaptureDevice webcamSource     = null;
-        private Bitmap image;
+        private Bitmap image1;
+        private Bitmap image2;
         private bool webcamExist                    = false;
         private int selectedWebCam;
+        private int selectedWebCamLC2;
 
         // IP WebCam
         private string WebCamIP;
@@ -55,6 +57,10 @@ namespace Broadcaster
             lfPicture.Image   = Resources.offline;
             ytPicture.Image   = Resources.offline;
             livePicture.Image = Resources.offline;
+
+            livePicture.Show();
+            LiveCamera.Hide();            
+            live.Hide();
 
             ColumnHeader header = new ColumnHeader();
             header.Text = "";
@@ -156,7 +162,7 @@ namespace Broadcaster
                     selectedWebCam = Int32.Parse(values[3]);
 
                     // IP Webcam 
-                    WebCamIP = values[4];        
+                    selectedWebCamLC2 = Int32.Parse(values[4]);
                 }
             }
             else
@@ -192,9 +198,12 @@ namespace Broadcaster
         */
         void webcam_newframe(object sender, NewFrameEventArgs eventargs)
         {
-            image = (Bitmap)eventargs.Frame.Clone();
-            //image.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
-            LocalCamera.Image = image;
+            image1 = (Bitmap)eventargs.Frame.Clone();
+            image2 = (Bitmap)eventargs.Frame.Clone();
+            image1.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
+            image2.RotateFlip(RotateFlipType.RotateNoneFlipY); //Fix hardcoded para o caso da camara aparecer invertida
+            LocalCamera.Image = image1;
+            LiveCamera.Image = image2;
         }
 
         /*
@@ -210,84 +219,98 @@ namespace Broadcaster
             string ytPathList = ytPath + ytList;
             string catPathList = plPath + catList;
 
+            string[] values;
+
             if (File.Exists(lfPathList))
             {
-                Console.WriteLine("Info: File " + lfPathList + " exists.");
+                Console.WriteLine("Info: File " + lfList + " exists.");
 
-                //Ler valores dentro do ficheiro
-                string[] values = File.ReadAllText(lfPathList).Split(';');
-
-                if (values.Length > 0)
+                //Ler valores dentro do ficheiro               
+                if(new FileInfo(lfPathList).Length > 0)
                 {
-                    LFList.Items.Clear();
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        if (values[i] != "")
-                        {
-                            LFList.Items.Add(values[i]);
-                        }
-                    }
+                    values = File.ReadAllText(lfPathList).Split(';');
 
-                    LFList.SelectedIndex = 0;
+                    if (values.Length > 0)
+                    {
+                        comboBox1.Items.Clear();
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            if (values[i] != "")
+                            {
+                                string item = values[i].ToString();
+                                comboBox1.Items.Add(item);
+                            }
+                        }
+
+                        comboBox1.SelectedIndex = 0;
+                    }
                 }
             }
             else
             {
-                Console.WriteLine("Info: File " + lfPathList + " doesn't exist.");
+                Console.WriteLine("Info: File " + lfList + " doesn't exist.");
             }
 
             if (File.Exists(ytPathList))
             {
-                Console.WriteLine("Info: File " + ytPathList + " exists.");
+                Console.WriteLine("Info: File " + ytList + " exists.");
 
-                //Ler valores dentro do ficheiro
-                string[] values = File.ReadAllText(ytPathList).Split(';');
-
-                if (values.Length > 0)
+                //Ler valores dentro do ficheiro               
+                if (new FileInfo(ytPathList).Length > 0)
                 {
-                    YTList.Items.Clear();
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        if (values[i] != "")
-                        {
-                            string[] aux = values[i].Split('#');
-                            string listItem = aux[0] + " - " + aux[1];
-                            YTList.Items.Add(listItem);
-                        }
-                    }
+                    //Ler valores dentro do ficheiro
+                    values = File.ReadAllText(ytPathList).Split(';');
 
-                    YTList.SelectedIndex = 0;
+                    if (values.Length > 0)
+                    {
+                        YTList.Items.Clear();
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            if (values[i] != "")
+                            {
+                                string[] aux = values[i].Split('#');
+                                string listItem = aux[0] + " - " + aux[1];
+                                YTList.Items.Add(listItem);
+                            }
+                        }
+
+                        YTList.SelectedIndex = 0;
+                    }
                 }
             }
             else
             {
-                Console.WriteLine("Info: File " + ytPathList + " doesn't exist.");
+                Console.WriteLine("Info: File " + ytList + " doesn't exist.");
             }
 
             if (File.Exists(catPathList))
             {
-                Console.WriteLine("Info: File " + catPathList + " exists.");
+                Console.WriteLine("Info: File " + catList + " exists.");
 
-                //Ler valores dentro do ficheiro
-                string[] values = File.ReadAllText(catPathList).Split(';');
-
-                if (values.Length > 0)
+                //Ler valores dentro do ficheiro               
+                if (new FileInfo(catPathList).Length > 0)
                 {
-                    categoryList.Items.Clear();
-                    for (int i = 0; i < values.Length; i++)
-                    {
-                        if (values[i] != "")
-                        {                            
-                            categoryList.Items.Add(values[i]);
-                        }
-                    }
+                    //Ler valores dentro do ficheiro
+                    values = File.ReadAllText(catPathList).Split(';');
 
-                    categoryList.SelectedIndex = 0;
+                    if (values.Length > 0)
+                    {
+                        categoryList.Items.Clear();
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            if (values[i] != "")
+                            {
+                                categoryList.Items.Add(values[i]);
+                            }
+                        }
+
+                        categoryList.SelectedIndex = 0;
+                    }
                 }
             }
             else
             {
-                Console.WriteLine("Info: File " + catPathList + " doesn't exist.");
+                Console.WriteLine("Info: File " + catList + " doesn't exist.");
             }
         }
 
@@ -312,7 +335,6 @@ namespace Broadcaster
 
                 if (values.Length > 0)
                 {
-                    LFList.Items.Clear();
                     for (int i = 0; i < values.Length; i++)
                     {
                         if (values[i] != "")
@@ -367,6 +389,56 @@ namespace Broadcaster
             livePicture.Hide();
             live.currentPlaylist = playlist;
             live.Ctlcontrols.play();
+            live.Show();
+        }
+
+        /*
+        *   Função para mudar a playlist caso seja alterado a categoria
+        */
+        private void categoryList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            indexPL = 0;
+            loadPlaylist();
+        }
+
+        /*
+        *   Função para mudar a preview caso seja alterado
+        */
+        private void LFList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Obter o caminho do ficheiro de video
+            string video = comboBox1.SelectedItem.ToString();
+            string videoPath = lfPath + video;
+
+            // Iniciar live dos videos locais
+            LFiles.URL = videoPath;
+            LFiles.Show();
+            lfPicture.Hide();
+            LFiles.settings.mute = true;
+
+            if(LA2state == true)
+            {
+                live.URL = videoPath;
+            }
+        }
+
+        /*
+        *   Função para mudar a preview caso seja alterado
+        */
+        private void YTList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Processar o URL
+            string url = YTList.SelectedItem.ToString();
+            if (url != "")
+            {
+                string urlAux = url.Substring(url.IndexOf("=") + 1);
+                string newUrl = "https://www.youtube.com/v/" + urlAux + "?autoplay=1&showinfo=0&controls=0";
+
+                // Iniciar preview do video
+                YTFiles.URL = newUrl;
+                ytPicture.Hide();
+                YTFiles.Show();               
+            }
         }
 
         /*============================================================================================
@@ -382,8 +454,11 @@ namespace Broadcaster
                 //Caso o LC2 esteja ativo, desativa
                 if(LC2state == true)
                 {
-                    LC2Btn.BackColor = System.Drawing.Color.Green;
+                    LC2Btn.BackColor = System.Drawing.Color.Red;
                     LC2state = false;
+
+                    //Desativar a camara
+                    webcamSource.Stop();
                 }               
 
                 //Ativar a WebCam
@@ -395,6 +470,9 @@ namespace Broadcaster
                     //Mudar a cor para indicar que esta ON
                     LC1Btn.BackColor = System.Drawing.Color.Green;
                     LC1state = true;
+
+                    //Mostrar na preview a webcam local
+                    webcamSource.Start();
                 }
                 else
                 {
@@ -408,7 +486,9 @@ namespace Broadcaster
                 LC1state = false;
                 
                 //Desactivar a WebCam
-                webcamSource.Stop();
+                webcamSource.Stop();                
+
+                LocalCamera.Image = Resources.offline;
             }
         }
 
@@ -418,28 +498,33 @@ namespace Broadcaster
         private void LC2Btn_Click(object sender, EventArgs e)
         {            
             if (LC2state == false)
-            {               
-                //Verificar se o endereço é válido
-                if(WebCamIP != "")
+            {
+                //Caso o LC1 esteja ativo, desativa
+                if (LC1state == true)
                 {
+                    LC1Btn.BackColor = System.Drawing.Color.Red;
+                    LC1state = false;
+
+                    //Desativar a camara
+                    webcamSource.Stop();
+                }
+
+                //Ativar a WebCam
+                if (webcamExist == true)
+                {
+                    webcamSource = new VideoCaptureDevice(webcamDevices[selectedWebCamLC2].MonikerString);
+                    webcamSource.NewFrame += new NewFrameEventHandler(webcam_newframe);
+
                     //Mudar a cor para indicar que esta ON
                     LC2Btn.BackColor = System.Drawing.Color.Green;
-                    LC2state = true;                 
+                    LC2state = true;
 
-                    //Ligação por IP à webcam
-                    //Uri uri = new Uri(WebCamIP);
-                    //var request = WebRequest.Create(uri);
-
-                    //using (var response = request.GetResponse())
-                    //using (var stream = response.GetResponseStream())
-                    //{
-                    //    LocalCamera.Image = Bitmap.FromStream(stream);
-                    //}
+                    //Mostrar na preview a webcam local
+                    webcamSource.Start();
                 }
                 else
                 {
-                    Console.WriteLine("Info: No IP for the IP WebCam provided.");
-                    LocalCamera.Image = Resources.offline;
+                    Console.WriteLine("INFO: Failed to start the local webcam. Is there any webcam?");
                 }
             }
             else
@@ -448,9 +533,50 @@ namespace Broadcaster
                 LC2Btn.BackColor = System.Drawing.Color.Red;
                 LC2state = false;
 
+                //Desactivar a WebCam
+                webcamSource.Stop();
+
                 LocalCamera.Image = Resources.offline;
-            }           
-        }          
+            }
+        }
+
+        /*
+        *   Função para o botão PL
+        */
+        private void PLBtn_Click(object sender, EventArgs e)
+        {
+            if (PLstate == false)
+            {
+                // Desativar todos os outros botões
+                LA1state = false;
+                LA2state = false;
+                LA3state = false;
+                LA1.BackColor = System.Drawing.Color.Red;
+                LA2.BackColor = System.Drawing.Color.Red;
+                LA3.BackColor = System.Drawing.Color.Red;
+
+                // Mudar o estado do botão
+                PLstate = true;
+                PLBtn.BackColor = System.Drawing.Color.Green;
+
+                loadPlaylistItem();
+            }
+            else
+            {
+                // Mudar o estado do botão
+                PLstate = false;
+                PLBtn.BackColor = System.Drawing.Color.Red;
+
+                // Parar o video
+                live.Ctlcontrols.stop();
+
+                // Alterar a janela live
+                livePicture.Image = Resources.offline;
+                livePicture.Show();
+
+                indexPL = 0;
+            }
+        }
 
         /*
          *  Função para abrir janela com a lista de Videos Locais
@@ -483,8 +609,17 @@ namespace Broadcaster
                     LA1state = true;
                     LA1.BackColor = System.Drawing.Color.Green;
 
-                    //Mostrar na preview a webcam local
-                    webcamSource.Start();
+                    //Mudar cor dos outros botões
+                    LA2state = false;
+                    LA3state = false;
+                    LA2.BackColor = System.Drawing.Color.Red;
+                    LA3.BackColor = System.Drawing.Color.Red;
+
+                    //Mostrar na live area a camera
+                    LiveCamera.Show();
+                    livePicture.Hide();
+                    live.Hide();
+
                 }
                 else if (LC2state == true)
                 {
@@ -492,22 +627,26 @@ namespace Broadcaster
                     LA1state = true;
                     LA1.BackColor = System.Drawing.Color.Green;
 
-                    //Mostrar na preview a IP webcam
-                    //...
-                }
+                    //Mudar cor dos outros botões
+                    LA2state = false;
+                    LA3state = false;
+                    LA2.BackColor = System.Drawing.Color.Red;
+                    LA3.BackColor = System.Drawing.Color.Red;
+
+                    //Mostrar na live area a camera
+                    LiveCamera.Show();
+                    livePicture.Hide();
+                    live.Hide();
+                }    
             }
             else
             {
                 LA1state = false;
                 LA1.BackColor = System.Drawing.Color.Red;
 
-                //Parar a webcam
-                if (LC1state == true)
-                {
-                    webcamSource.Stop();
-                }
-
-                LocalCamera.Image = Resources.offline;
+                LiveCamera.Hide();
+                livePicture.Show();
+                live.Hide();
             }      
         }
 
@@ -519,21 +658,32 @@ namespace Broadcaster
             if(LA2state == false)
             {
                 // Verificar se a combobox dos ficheiros locais tem algum item antes de tentar reproduzir
-                if (LFList.Items.Count > 0)
+                if (comboBox1.Items.Count > 0)
                 {
                     // Mudar o estado do botão
                     LA2state = true;
                     LA2.BackColor = System.Drawing.Color.Green;
 
                     // Obter o caminho do ficheiro de video
-                    string video = LFList.SelectedItem.ToString();
+                    string video = comboBox1.SelectedItem.ToString();
                     string videoPath = lfPath + video;
 
-                    // Iniciar preview do video
-                    lfPicture.Hide();
-                    LFiles.URL = videoPath;
-                    LFiles.settings.mute = true;
-                }                
+                    //Mudar cor dos outros botões
+                    LA1state = false;
+                    LA3state = false;
+                    LA1.BackColor = System.Drawing.Color.Red;
+                    LA3.BackColor = System.Drawing.Color.Red;
+
+                    // Iniciar live dos videos locais
+                    LiveCamera.Hide();
+                    livePicture.Hide();
+                    live.URL = videoPath;
+                    live.Show();
+                }
+                else
+                {
+                    Console.WriteLine("INFO: There is no local videos to show");
+                }          
             }
             else
             {
@@ -542,12 +692,13 @@ namespace Broadcaster
                 LA2.BackColor = System.Drawing.Color.Red;
 
                 // Parar o video
-                WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)LFiles.Ctlcontrols;
+                WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)live.Ctlcontrols;
                 controls.stop();
 
                 // Alterar a janela preview
-                lfPicture.Image = Resources.offline;
-                lfPicture.Show();
+                livePicture.Image = Resources.offline;
+                livePicture.Show();
+                live.Hide();
             }
         }
 
@@ -565,17 +716,24 @@ namespace Broadcaster
                     LA3state = true;
                     LA3.BackColor = System.Drawing.Color.Green;
 
+                    //Mudar cor dos outros botões
+                    LA2state = false;
+                    LA1state = false;
+                    LA2.BackColor = System.Drawing.Color.Red;
+                    LA1.BackColor = System.Drawing.Color.Red;
+
                     // Processar o URL
                     string url = YTList.SelectedItem.ToString();
                     if (url != "")
                     {
                         string urlAux = url.Substring(url.IndexOf("=") + 1);
                         string newUrl = "https://www.youtube.com/v/" + urlAux + "?autoplay=1&showinfo=0&controls=0";
-                        Console.WriteLine(newUrl);
 
                         // Iniciar preview do video
-                        YTFiles.URL = newUrl;
-                        ytPicture.Hide();
+                        live.URL = newUrl;
+                        live.Show();
+                        LiveCamera.Hide();
+                        livePicture.Hide();
                     }
                 }                              
             }
@@ -586,12 +744,13 @@ namespace Broadcaster
                 LA3.BackColor = System.Drawing.Color.Red;
 
                 // Parar o video
-                WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)YTFiles.Ctlcontrols;
+                WMPLib.IWMPControls3 controls = (WMPLib.IWMPControls3)live.Ctlcontrols;
                 controls.stop();
 
                 // Alterar a janela preview
-                ytPicture.Image = Resources.offline;
-                ytPicture.Show();
+                live.Hide();
+                LiveCamera.Hide();
+                livePicture.Show();
             }
         }
 
@@ -609,7 +768,8 @@ namespace Broadcaster
         */
         private void editPLBtn_Click(object sender, EventArgs e)
         {
-            ListPL listPL = new ListPL("");
+            string category = categoryList.SelectedItem.ToString();
+            ListPL listPL = new ListPL(category);
             listPL.Show();
         }
 
@@ -642,37 +802,5 @@ namespace Broadcaster
             Application.Exit();
         }
 
-        private void PLBtn_Click(object sender, EventArgs e)
-        {
-            if (PLstate == false)
-            {
-                // Mudar o estado do botão
-                PLstate = true;
-                PLBtn.BackColor = System.Drawing.Color.Green;
-
-                loadPlaylistItem();
-            }
-            else
-            {
-                // Mudar o estado do botão
-                PLstate = false;
-                PLBtn.BackColor = System.Drawing.Color.Red;
-
-                // Parar o video
-                live.Ctlcontrols.stop();
-
-                // Alterar a janela live
-                livePicture.Image = Resources.offline;
-                livePicture.Show();
-
-                indexPL = 0;
-            }
-        }
-
-        private void categoryList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            indexPL = 0;
-            loadPlaylist();
-        }
     }
 }

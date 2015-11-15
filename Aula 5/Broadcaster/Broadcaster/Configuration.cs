@@ -40,6 +40,7 @@ namespace Broadcaster
                 webcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
                 wbBox.Items.Clear();
+                wbBox2.Items.Clear();
 
                 if (webcamDevices.Count == 0)
                 {
@@ -51,12 +52,14 @@ namespace Broadcaster
                 foreach (FilterInfo webcam in webcamDevices)
                 {
                     wbBox.Items.Add(webcam.Name);
+                    wbBox2.Items.Add(webcam.Name);
                 }
             }
             catch (ApplicationException)
             {
                 webcamExist = false;
                 wbBox.Items.Add("< No WebCams found >");
+                wbBox2.Items.Add("< No WebCams found >");
             }
         }
 
@@ -107,8 +110,16 @@ namespace Broadcaster
                     {
                         Console.WriteLine("INFO: The webcam doesn't exist!");
                         wbBox.SelectedIndex = 0;
-                    }                    
-                    ipBox.Text             = values[4];
+                    }
+                    try
+                    {
+                        wbBox2.SelectedIndex = Int32.Parse(values[4]);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("INFO: The webcam doesn't exist!");
+                        wbBox2.SelectedIndex = 0;
+                    }
                 }
             }
             else
@@ -230,7 +241,7 @@ namespace Broadcaster
             newConfig += logoBox.Text + ";";
             newConfig += bgBox.Text + ";";
             newConfig += wbBox.SelectedIndex + ";";
-            newConfig += ipBox.Text + ";";
+            newConfig += wbBox2.SelectedIndex + ";";
             tw.Write(newConfig);
             tw.Close();
 
@@ -267,7 +278,15 @@ namespace Broadcaster
                     Console.WriteLine("INFO: The webcam doesn't exist!");
                     wbBox.SelectedIndex = 0;
                 }
-                ipBox.Text    = values[4];
+                try
+                {
+                    wbBox2.SelectedIndex = Int32.Parse(values[3]);
+                }
+                catch (Exception e2)
+                {
+                    Console.WriteLine("INFO: The 2nd webcam doesn't exist!");
+                    wbBox2.SelectedIndex = 0;
+                }
 
                 File.Move(configFilePath, defaultFilePath);
             }
@@ -277,7 +296,7 @@ namespace Broadcaster
                 logoBox.Text        = "logo1.png";
                 bgBox.Text          = "wallpaper1.jpg";
                 wbBox.SelectedIndex = 0;
-                ipBox.Text          = "127.0.0.7";
+                wbBox2.SelectedIndex = 0;
 
                 //Limpa o ficheiro de configuração
                 File.WriteAllText(configFilePath, "");
@@ -288,7 +307,7 @@ namespace Broadcaster
                 newConfig += logoBox.Text  + ";";
                 newConfig += bgBox.Text + ";";
                 newConfig += wbBox.SelectedIndex + ";";
-                newConfig += ipBox.Text + ";";
+                newConfig += wbBox2.SelectedIndex + ";";
                 tw.Write(newConfig);
                 tw.Close();
             }

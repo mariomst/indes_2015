@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuration));
-            this.ipBox = new System.Windows.Forms.TextBox();
             this.bgBox = new System.Windows.Forms.TextBox();
             this.logoBox = new System.Windows.Forms.TextBox();
             this.titleBox = new System.Windows.Forms.TextBox();
@@ -46,15 +45,9 @@
             this.wbBox = new System.Windows.Forms.ComboBox();
             this.pictureConfig = new System.Windows.Forms.PictureBox();
             this.lOpenBtn = new System.Windows.Forms.Button();
+            this.wbBox2 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureConfig)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ipBox
-            // 
-            this.ipBox.Location = new System.Drawing.Point(246, 152);
-            this.ipBox.Name = "ipBox";
-            this.ipBox.Size = new System.Drawing.Size(264, 20);
-            this.ipBox.TabIndex = 28;
             // 
             // bgBox
             // 
@@ -104,11 +97,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(147, 153);
+            this.label1.Location = new System.Drawing.Point(137, 153);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 19);
+            this.label1.Size = new System.Drawing.Size(103, 19);
             this.label1.TabIndex = 21;
-            this.label1.Text = "IP WebCam:";
+            this.label1.Text = "2nd WebCam:";
             // 
             // webcamLabel
             // 
@@ -209,17 +202,25 @@
             this.lOpenBtn.UseVisualStyleBackColor = true;
             this.lOpenBtn.Click += new System.EventHandler(this.lOpenBtn_Click);
             // 
+            // wbBox2
+            // 
+            this.wbBox2.FormattingEnabled = true;
+            this.wbBox2.Location = new System.Drawing.Point(246, 154);
+            this.wbBox2.Name = "wbBox2";
+            this.wbBox2.Size = new System.Drawing.Size(264, 21);
+            this.wbBox2.TabIndex = 33;
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(526, 278);
+            this.Controls.Add(this.wbBox2);
             this.Controls.Add(this.lOpenBtn);
             this.Controls.Add(this.wbBox);
             this.Controls.Add(this.wOpenBtn);
             this.Controls.Add(this.pictureConfig);
-            this.Controls.Add(this.ipBox);
             this.Controls.Add(this.bgBox);
             this.Controls.Add(this.logoBox);
             this.Controls.Add(this.titleBox);
@@ -248,7 +249,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureConfig;
-        private System.Windows.Forms.TextBox ipBox;
         private System.Windows.Forms.TextBox bgBox;
         private System.Windows.Forms.TextBox logoBox;
         private System.Windows.Forms.TextBox titleBox;
@@ -264,5 +264,6 @@
         private System.Windows.Forms.Button wOpenBtn;
         private System.Windows.Forms.ComboBox wbBox;
         private System.Windows.Forms.Button lOpenBtn;
+        private System.Windows.Forms.ComboBox wbBox2;
     }
 }

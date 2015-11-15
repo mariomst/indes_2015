@@ -42,7 +42,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.LFList = new System.Windows.Forms.ComboBox();
             this.YTList = new System.Windows.Forms.ComboBox();
             this.LC2Btn = new System.Windows.Forms.Button();
             this.serialPortBT = new System.IO.Ports.SerialPort(this.components);
@@ -56,25 +55,28 @@
             this.LA2 = new System.Windows.Forms.Button();
             this.LA3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.LFiles = new AxWMPLib.AxWindowsMediaPlayer();
-            this.YTFiles = new AxWMPLib.AxWindowsMediaPlayer();
             this.logoBox = new System.Windows.Forms.PictureBox();
             this.categoryList = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.PLList = new System.Windows.Forms.ListView();
             this.editPLBtn = new System.Windows.Forms.Button();
             this.newPLBtn = new System.Windows.Forms.Button();
-            this.PLList = new System.Windows.Forms.ListView();
+            this.LiveCamera = new System.Windows.Forms.PictureBox();
+            this.LFiles = new AxWMPLib.AxWindowsMediaPlayer();
+            this.YTFiles = new AxWMPLib.AxWindowsMediaPlayer();
             this.live = new AxWMPLib.AxWindowsMediaPlayer();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LocalCamera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lfPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ytPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.livePicture)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LiveCamera)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.live)).BeginInit();
             this.SuspendLayout();
             // 
@@ -201,14 +203,6 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "Youtube";
             // 
-            // LFList
-            // 
-            this.LFList.FormattingEnabled = true;
-            this.LFList.Location = new System.Drawing.Point(185, 245);
-            this.LFList.Name = "LFList";
-            this.LFList.Size = new System.Drawing.Size(125, 21);
-            this.LFList.TabIndex = 12;
-            // 
             // YTList
             // 
             this.YTList.FormattingEnabled = true;
@@ -216,6 +210,7 @@
             this.YTList.Name = "YTList";
             this.YTList.Size = new System.Drawing.Size(125, 21);
             this.YTList.TabIndex = 13;
+            this.YTList.SelectedIndexChanged += new System.EventHandler(this.YTList_SelectedIndexChanged);
             // 
             // LC2Btn
             // 
@@ -273,7 +268,7 @@
             // livePicture
             // 
             this.livePicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.livePicture.Location = new System.Drawing.Point(102, 313);
+            this.livePicture.Location = new System.Drawing.Point(102, 326);
             this.livePicture.Name = "livePicture";
             this.livePicture.Size = new System.Drawing.Size(364, 215);
             this.livePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -350,28 +345,10 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Controls";
             // 
-            // LFiles
-            // 
-            this.LFiles.Enabled = true;
-            this.LFiles.Location = new System.Drawing.Point(185, 123);
-            this.LFiles.Name = "LFiles";
-            this.LFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("LFiles.OcxState")));
-            this.LFiles.Size = new System.Drawing.Size(125, 105);
-            this.LFiles.TabIndex = 22;
-            // 
-            // YTFiles
-            // 
-            this.YTFiles.Enabled = true;
-            this.YTFiles.Location = new System.Drawing.Point(341, 123);
-            this.YTFiles.Name = "YTFiles";
-            this.YTFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("YTFiles.OcxState")));
-            this.YTFiles.Size = new System.Drawing.Size(125, 105);
-            this.YTFiles.TabIndex = 27;
-            // 
             // logoBox
             // 
             this.logoBox.BackColor = System.Drawing.Color.Transparent;
-            this.logoBox.Location = new System.Drawing.Point(12, 458);
+            this.logoBox.Location = new System.Drawing.Point(14, 469);
             this.logoBox.Name = "logoBox";
             this.logoBox.Size = new System.Drawing.Size(70, 70);
             this.logoBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -399,10 +376,20 @@
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(494, 313);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(345, 215);
+            this.groupBox2.Size = new System.Drawing.Size(345, 228);
             this.groupBox2.TabIndex = 36;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Playlist";
+            // 
+            // PLList
+            // 
+            this.PLList.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PLList.Location = new System.Drawing.Point(6, 55);
+            this.PLList.Name = "PLList";
+            this.PLList.Size = new System.Drawing.Size(261, 167);
+            this.PLList.TabIndex = 39;
+            this.PLList.UseCompatibleStateImageBehavior = false;
+            this.PLList.View = System.Windows.Forms.View.Details;
             // 
             // editPLBtn
             // 
@@ -430,24 +417,51 @@
             this.newPLBtn.UseVisualStyleBackColor = true;
             this.newPLBtn.Click += new System.EventHandler(this.newPLBtn_Click);
             // 
-            // PLList
+            // LiveCamera
             // 
-            this.PLList.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PLList.Location = new System.Drawing.Point(6, 55);
-            this.PLList.Name = "PLList";
-            this.PLList.Size = new System.Drawing.Size(261, 154);
-            this.PLList.TabIndex = 39;
-            this.PLList.UseCompatibleStateImageBehavior = false;
-            this.PLList.View = System.Windows.Forms.View.Details;
+            this.LiveCamera.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.LiveCamera.Location = new System.Drawing.Point(102, 326);
+            this.LiveCamera.Name = "LiveCamera";
+            this.LiveCamera.Size = new System.Drawing.Size(364, 216);
+            this.LiveCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LiveCamera.TabIndex = 33;
+            this.LiveCamera.TabStop = false;
+            // 
+            // LFiles
+            // 
+            this.LFiles.Enabled = true;
+            this.LFiles.Location = new System.Drawing.Point(185, 123);
+            this.LFiles.Name = "LFiles";
+            this.LFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("LFiles.OcxState")));
+            this.LFiles.Size = new System.Drawing.Size(125, 105);
+            this.LFiles.TabIndex = 22;
+            // 
+            // YTFiles
+            // 
+            this.YTFiles.Enabled = true;
+            this.YTFiles.Location = new System.Drawing.Point(341, 123);
+            this.YTFiles.Name = "YTFiles";
+            this.YTFiles.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("YTFiles.OcxState")));
+            this.YTFiles.Size = new System.Drawing.Size(125, 105);
+            this.YTFiles.TabIndex = 27;
             // 
             // live
             // 
             this.live.Enabled = true;
-            this.live.Location = new System.Drawing.Point(102, 313);
+            this.live.Location = new System.Drawing.Point(102, 326);
             this.live.Name = "live";
             this.live.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("live.OcxState")));
             this.live.Size = new System.Drawing.Size(364, 215);
             this.live.TabIndex = 37;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(185, 245);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(125, 21);
+            this.comboBox1.TabIndex = 38;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.LFList_SelectedIndexChanged);
             // 
             // Form1
             // 
@@ -456,6 +470,7 @@
             this.BackgroundImage = global::Broadcaster.Properties.Resources.wallpaper11;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(862, 554);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.logoBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.livePicture);
@@ -464,7 +479,6 @@
             this.Controls.Add(this.editLF);
             this.Controls.Add(this.LFiles);
             this.Controls.Add(this.YTList);
-            this.Controls.Add(this.LFList);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -475,6 +489,7 @@
             this.Controls.Add(this.YTFiles);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.live);
+            this.Controls.Add(this.LiveCamera);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -491,10 +506,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.ytPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.livePicture)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.logoBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.LiveCamera)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LFiles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YTFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.live)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -514,7 +530,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox LFList;
         private System.Windows.Forms.ComboBox YTList;
         private System.Windows.Forms.Button LC2Btn;
         private System.IO.Ports.SerialPort serialPortBT;
@@ -538,6 +553,8 @@
         private System.Windows.Forms.Button newPLBtn;
         private System.Windows.Forms.ListView PLList;
         private AxWMPLib.AxWindowsMediaPlayer live;
+        private System.Windows.Forms.PictureBox LiveCamera;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
