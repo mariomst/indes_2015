@@ -34,7 +34,8 @@ namespace Broadcaster
         //Obter o diretório Videos do programa
         private void getVideoPath()
         {
-            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            //string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string parentDirectory = Directory.GetCurrentDirectory();
             videosPath = parentDirectory + "\\Videos\\LF\\";
         }
 

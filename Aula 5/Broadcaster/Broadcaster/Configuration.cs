@@ -68,7 +68,8 @@ namespace Broadcaster
         */
         private void getConfigPath()
         {
-            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            //string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string parentDirectory = Directory.GetCurrentDirectory();
             configPath = parentDirectory + "\\Config\\";
         }
 
@@ -77,7 +78,8 @@ namespace Broadcaster
         */
         private void getUserImagesPath()
         {
-            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            //string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string parentDirectory = Directory.GetCurrentDirectory();
             userImagesPath = parentDirectory + "\\Images\\User\\";
         }
 

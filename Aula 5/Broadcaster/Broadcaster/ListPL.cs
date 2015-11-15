@@ -67,7 +67,8 @@ namespace Broadcaster
         private void LoadFilePaths()
         {
             //Obter o diretório da aplicação.
-            parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            //parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string parentDirectory = Directory.GetCurrentDirectory();
 
             //Definir os caminhos para cada uma das listas.
             LFpath = parentDirectory + "\\Videos\\LF\\";

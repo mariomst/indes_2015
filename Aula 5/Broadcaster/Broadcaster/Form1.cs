@@ -79,7 +79,8 @@ namespace Broadcaster
         */
         private void getPaths()
         {
-            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            //string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string parentDirectory = Directory.GetCurrentDirectory();
             configPath     = parentDirectory + "\\Config\\";
             userImagesPath = parentDirectory + "\\Images\\User\\";
             ImagesPath     = parentDirectory + "\\Images\\";

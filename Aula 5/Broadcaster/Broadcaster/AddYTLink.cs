@@ -25,7 +25,8 @@ namespace Broadcaster
 
         private void getYTPath()
         {
-            string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            //string parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string parentDirectory = Directory.GetCurrentDirectory();
             path = parentDirectory + "\\Videos\\YT\\";
         }
 
