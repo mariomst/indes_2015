@@ -769,9 +769,17 @@ namespace Broadcaster
         */
         private void editPLBtn_Click(object sender, EventArgs e)
         {
-            string category = categoryList.SelectedItem.ToString();
-            ListPL listPL = new ListPL(category);
-            listPL.Show();
+            if (categoryList.Items.Count > 0)
+            {
+                string category = categoryList.SelectedItem.ToString();
+                ListPL listPL = new ListPL(category);
+                listPL.Show();
+            }
+            else
+            {
+                DialogResult message = MessageBox.Show("No playlist to edit.",
+                      "Playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /*============================================================================================
