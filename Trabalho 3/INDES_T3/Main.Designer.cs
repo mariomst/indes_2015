@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.logoName = new System.Windows.Forms.Label();
             this.logoPicture = new System.Windows.Forms.PictureBox();
             this.easyBtn = new System.Windows.Forms.Button();
@@ -44,9 +45,9 @@
             this.logoName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logoName.Location = new System.Drawing.Point(64, 9);
             this.logoName.Name = "logoName";
-            this.logoName.Size = new System.Drawing.Size(173, 29);
+            this.logoName.Size = new System.Drawing.Size(142, 29);
             this.logoName.TabIndex = 0;
-            this.logoName.Text = "Batalha Naval";
+            this.logoName.Text = "Battleships";
             // 
             // logoPicture
             // 
@@ -64,7 +65,7 @@
             this.easyBtn.Name = "easyBtn";
             this.easyBtn.Size = new System.Drawing.Size(274, 23);
             this.easyBtn.TabIndex = 2;
-            this.easyBtn.Text = "Fácil";
+            this.easyBtn.Text = "Easy";
             this.easyBtn.UseVisualStyleBackColor = true;
             this.easyBtn.Click += new System.EventHandler(this.easyBtn_Click);
             // 
@@ -84,7 +85,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(274, 23);
             this.button1.TabIndex = 4;
-            this.button1.Text = "Díficil";
+            this.button1.Text = "Hard";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -94,7 +95,7 @@
             this.sairBtn.Name = "sairBtn";
             this.sairBtn.Size = new System.Drawing.Size(156, 23);
             this.sairBtn.TabIndex = 5;
-            this.sairBtn.Text = "Sair";
+            this.sairBtn.Text = "Exit";
             this.sairBtn.UseVisualStyleBackColor = true;
             this.sairBtn.Click += new System.EventHandler(this.sairBtn_Click);
             // 
@@ -121,12 +122,12 @@
             this.Controls.Add(this.logoPicture);
             this.Controls.Add(this.logoName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "INDES: Batalha Naval";
+            this.Text = "INDES: Battleships";
             ((System.ComponentModel.ISupportInitialize)(this.logoPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

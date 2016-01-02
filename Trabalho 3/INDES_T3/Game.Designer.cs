@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             this.hitsLabel1 = new System.Windows.Forms.Label();
             this.hitsLabel2 = new System.Windows.Forms.Label();
             this.hitsLabel3 = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             this.timeLabel1 = new System.Windows.Forms.Label();
             this.timeLabel2 = new System.Windows.Forms.Label();
             this.timeLabel3 = new System.Windows.Forms.Label();
+            this.labelInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // hitsLabel1
@@ -147,6 +149,16 @@
             this.timeLabel3.Text = "0";
             this.timeLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // labelInfo
+            // 
+            this.labelInfo.BackColor = System.Drawing.Color.Transparent;
+            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInfo.ForeColor = System.Drawing.Color.Green;
+            this.labelInfo.Location = new System.Drawing.Point(378, 626);
+            this.labelInfo.Name = "labelInfo";
+            this.labelInfo.Size = new System.Drawing.Size(775, 30);
+            this.labelInfo.TabIndex = 9;
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +166,7 @@
             this.BackgroundImage = global::INDES_T3.Properties.Resources.gameBase;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.labelInfo);
             this.Controls.Add(this.timeLabel3);
             this.Controls.Add(this.timeLabel2);
             this.Controls.Add(this.timeLabel1);
@@ -164,6 +177,7 @@
             this.Controls.Add(this.hitsLabel2);
             this.Controls.Add(this.hitsLabel1);
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Game";
@@ -187,5 +201,6 @@
         private System.Windows.Forms.Label timeLabel1;
         private System.Windows.Forms.Label timeLabel2;
         private System.Windows.Forms.Label timeLabel3;
+        private System.Windows.Forms.Label labelInfo;
     }
 }

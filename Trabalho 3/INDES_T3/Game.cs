@@ -19,6 +19,7 @@ namespace INDES_T3
         private int yPC = 220;
         //MST: Váriaveis auxiliares
         bool playerShipsAutoPlacement = true;
+        int saveDifficulty = 0;
 
         //MST: Inicialização de váriaveis
         Player player;
@@ -28,22 +29,22 @@ namespace INDES_T3
         {
             if (difficulty == 1)
             {
-                this.Text = "INDES - Batalha Naval - Fácil";
+                this.Text = "INDES: Battleships (Game: Easy)";
             }
             else if (difficulty == 2)
             {
-                this.Text = "INDES - Batalha Naval - Normal";
+                this.Text = "INDES: Battleships (Game: Normal)";
             }
             else
             {
-                this.Text = "INDES - Batalha Naval - Díficil";
+                this.Text = "INDES: Battleships (Game: Hard)";
             }
+
+            saveDifficulty = difficulty;
 
             InitializeComponent();
             CreateGameGrids(difficulty);
             DebugMessages();
-
-            this.FormClosing += ExitGame;
         }
 
         //HFS: Criação dinâmica de butões para jogo SIZE = Dimensão do button; FIELD = Dimensão do campo
@@ -75,23 +76,23 @@ namespace INDES_T3
                     {
                         if (playerShip == "a")
                         {
-                            playerGrid[i, j].BackgroundImage = Resources.Grid4;
+                            playerGrid[i, j].BackgroundImage = Resources.Grid4a;
                         }
                         else if (playerShip == "b")
                         {
-                            playerGrid[i, j].BackgroundImage = Resources.Grid7;
+                            playerGrid[i, j].BackgroundImage = Resources.Grid7a;
                         }
                         else if (playerShip == "c")
                         {
-                            playerGrid[i, j].BackgroundImage = Resources.Grid5;
+                            playerGrid[i, j].BackgroundImage = Resources.Grid5a;
                         }
                         else if (playerShip == "d1" || playerShip == "d2")
                         {
-                            playerGrid[i, j].BackgroundImage = Resources.Grid6;
+                            playerGrid[i, j].BackgroundImage = Resources.Grid6a;
                         }
                         else if (playerShip == "s1" || playerShip == "s2")
                         {
-                            playerGrid[i, j].BackgroundImage = Resources.Grid3;
+                            playerGrid[i, j].BackgroundImage = Resources.Grid3a;
                         }
                     }
                     
@@ -112,17 +113,20 @@ namespace INDES_T3
                     pcGrid[i, j].BackgroundImage = Resources.Grid2;
                     pcGrid[i, j].BackgroundImageLayout = ImageLayout.Stretch;
                     pcGrid[i, j].Name = "pcSquare_" + i + "_" + j;
-                    pcGrid[i, j].Click += new EventHandler(Tiro);
+                    pcGrid[i, j].Click += new EventHandler(Shot);
                     this.Controls.Add(pcGrid[i, j]);
                 }
             }
         }
 
         //HFS: Função de teste para atribuição de funções aos buttons de forma dinâmica
-        void Tiro(object sender, EventArgs e)
+        void Shot(object sender, EventArgs e)
         {
-            Button bt  = (Button)sender;
-            
+            Button bt          = (Button)sender;
+            List<Ship> ships   = computer.getShips();
+            int totalShots     = player.getTotalShots();
+            string checkWinner = "";
+
             //Algoritmo para através do nome do button ir buscar coordenadas do mesmo/posição do array
             String input = bt.Name;
             String[] numbers = Regex.Split(input, @"\D+");
@@ -147,23 +151,31 @@ namespace INDES_T3
             if (computerShips.getValue(y, x) == null)
             {
                 bt.Enabled = false; //desativa o botão.
-                bt.BackgroundImage = Resources.gridMiss;
+                bt.BackgroundImage = Resources.gridMissa;
                 misses += 1;
                 player.setMisses(misses);
-                computer.computerMove(player, playerGrid);             
+                computer.computerMove(player, playerGrid, labelInfo);        
             }
             else
             {
                 bt.Enabled = false; //desativa o botão.
-                bt.BackgroundImage = Resources.gridHit;
+                bt.BackgroundImage = Resources.gridHitb;
                 hits += 1;
                 player.setHits(hits);
+                player.updateShipList(ships, computerShips.getValue(y, x), labelInfo, "Player");
             }
+
+            totalShots += 1;                    //MST: incrementa o número total de tiros do jogador.
+            player.setTotalShots(totalShots);   //MST: atualiza o número total de tiros do jogador.
 
             updateScoreboard();
 
-            //funcaoClica(bt);
-            Console.WriteLine(bt.Name);
+            checkWinner = player.checkRemainingShips(player, computer, labelInfo);
+
+            if(checkWinner != "")
+            {
+                EndGame(checkWinner);
+            }
         }
 
         //MST: Criação das grelhas consoante a dificuldade escolhida
@@ -198,7 +210,8 @@ namespace INDES_T3
                 int hitsPart0 = (hits / 100);
                 string hitsTextP0 = hitsPart0.ToString();
 
-                int hitsPart1 = (hits % 100);
+                int hitsPart1aux = (hits / 10);
+                int hitsPart1 = (hitsPart1aux % 10);
                 string hitsTextP1 = hitsPart1.ToString();
 
                 int hitsPart2 = (hits % 10);
@@ -230,7 +243,8 @@ namespace INDES_T3
                 int missesPart0 = (misses / 100);
                 string missesTextP0 = missesPart0.ToString();
 
-                int missesPart1 = (misses % 100);
+                int missesPart1aux = (misses / 10);
+                int missesPart1 = (missesPart1aux % 10);
                 string missesTextP1 = missesPart1.ToString();
 
                 int missesPart2 = (misses % 10);
@@ -257,10 +271,19 @@ namespace INDES_T3
             }
         }
       
-        //MST: Terminar aplicação
-        private void ExitGame(object sender, FormClosingEventArgs e)
+        //HFS: Chamada do form Score - Acrescentado parametro com a dificuldade
+        //do jogo atual
+        private void EndGame(string winner)
         {
-            Application.Exit();
+            player.setHitsPercentage();
+            computer.setHitsPercentage();
+
+            Score endGame = new Score(player.getHits(), player.getMisses(), player.getHitsPercentage(), 
+                                    computer.getHits(), computer.getMisses(), computer.getHitsPercentage(), 
+                                    winner, saveDifficulty);
+            endGame.Show();
+
+            Close();  
         }
 
         //MST: Mensagens de DEBUG (apenas para testes)

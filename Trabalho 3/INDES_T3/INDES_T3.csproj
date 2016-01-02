@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>INDES_T3</RootNamespace>
     <AssemblyName>INDES_T3</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,6 +63,18 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Score.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Score.Designer.cs">
+      <DependentUpon>Score.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SendData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendData.Designer.cs">
+      <DependentUpon>SendData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ship.cs" />
     <EmbeddedResource Include="Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
@@ -79,6 +92,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Score.resx">
+      <DependentUpon>Score.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendData.resx">
+      <DependentUpon>SendData.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -127,6 +146,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\gridMiss.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Score.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grid3a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grid4a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grid5a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grid6a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Grid7a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gridHita.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gridHitb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gridMissa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sendData.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

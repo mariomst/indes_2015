@@ -252,75 +252,111 @@ namespace INDES_T3
         }
 
         //MST: jogada do computador
-        public void computerMove(Player human, PictureBox[,] playerGrid)
+        //Função computerMove alterada: estava a crashar logo a seguir à primeira jogada | Resolvido
+        public void computerMove(Player human, PictureBox[,] playerGrid, Label info)
         {
             //MST: variáveis auxiliares
-            Grid pGrid       = human.getGrid();
+            Grid pGrid = human.getGrid();
             List<Ship> ships = human.getShips();
-            Random random    = new Random();
-            int rowPos       = 0;
-            int colPos       = 0;
-            int totalShots   = getTotalShots();
-            int totalHits    = getHits();
-            int totalMisses  = getMisses();
-
-            rowPos = random.Next(0, pGrid.getRows());
-            colPos = random.Next(0, pGrid.getColumns());
+            Random random = new Random();
+            int rowPos = 0;
+            int colPos = 0;
+            int totalShots = getTotalShots();
+            int totalHits = getHits();
+            int totalMisses = getMisses();
 
             //MST: se a posição estiver vazia, então o computador ainda não tinha escolhida aquela posição
-            if (opponentsGrid.getValue(rowPos, colPos) == null)
+            do
             {
-                //MST: obter o valor dessa posição usando a grelha do jogador
-                string cellValue = pGrid.getValue(rowPos, colPos);
+                rowPos = random.Next(0, pGrid.getRows());
+                colPos = random.Next(0, pGrid.getColumns());
+            }
+            while (opponentsGrid.getValue(rowPos, colPos) != null);
 
-                if (cellValue != null)
+            //MST: obter o valor dessa posição usando a grelha do jogador
+            string cellValue = pGrid.getValue(rowPos, colPos);
+
+            if (cellValue != null)
+            {
+                this.setTotalShots(totalShots + 1);
+                this.setHits(totalHits + 1);
+
+                updateShipList(ships, cellValue, info, "Computer");
+
+                opponentsGrid.setValue(cellValue, rowPos, colPos);
+                pGrid.setValue("X", rowPos, colPos);
+                playerGrid[colPos, rowPos].BackgroundImage = Resources.gridHitb;
+
+                if (ships.Count > 0)
                 {
-                    this.setTotalShots(totalShots + 1);
-                    this.setHits(totalHits + 1);
-
-                    foreach(Ship item in ships)
-                    {
-                        if (item.getIdentifier() == cellValue)
-                        {
-                            Console.WriteLine("INFO: The {0} was hit!", item.getType());
-                            item.setLife(item.getLife() - 1);
-
-                            if(item.getLife() == 0)
-                            {
-                                Console.WriteLine("INFO: The {0} was destroyed!", item.getType());
-                                ships.Remove(item);
-                            }
-                            break;
-                        }
-                    }
-
-                    opponentsGrid.setValue(cellValue, rowPos, colPos);
-                    pGrid.setValue("X", rowPos, colPos);   
-                    playerGrid[colPos, rowPos].BackgroundImage = Resources.gridHit;
-
-                    if (ships.Count > 0)
-                    {
-                        computerMove(human, playerGrid);
-                    }
-                    else
-                    {
-                        Console.WriteLine("INFO: All player's ships were destroyed! Game Over!");
-                    }                    
-                }
-                else
-                {
-                    this.setTotalShots(totalShots + 1);
-                    this.setMisses(totalMisses + 1);
-
-                    opponentsGrid.setValue("M", rowPos, colPos);
-                    pGrid.setValue("M", rowPos, colPos);
-                    playerGrid[colPos, rowPos].BackgroundImage = Resources.gridMiss;
-                }
+                    computerMove(human, playerGrid, info);
+                }                
             }
             else
             {
-                computerMove(human, playerGrid);
+                this.setTotalShots(totalShots + 1);
+                this.setMisses(totalMisses + 1);
+
+                opponentsGrid.setValue("M", rowPos, colPos);
+                pGrid.setValue("M", rowPos, colPos);
+                playerGrid[colPos, rowPos].BackgroundImage = Resources.gridMissa;
             }
+        }
+
+        //MST: função para atualizar a lista dos navios de ambos os jogadores caso sejam atingidos e destruídos
+        public void updateShipList(List<Ship> ships, string cellValue, Label info, string playerID)
+        {
+            foreach (Ship item in ships)
+            {
+                if (item.getIdentifier() == cellValue)
+                {
+                    if(playerID == "Computer")
+                    {
+                        info.Text = "The player's " + item.getType() + " was hit!";
+                    }
+                    else
+                    {
+                        info.Text = "The computer's " + item.getType() + " was hit!";
+                    }
+                    
+                    item.setLife(item.getLife() - 1);
+
+                    if (item.getLife() == 0)
+                    {
+                        if (playerID == "Computer")
+                        {
+                            info.Text = "The player's " + item.getType() + " was destroyed!";
+                        }
+                        else
+                        {
+                            info.Text = "The computer's " + item.getType() + " was destroyed!";
+                        }
+                        ships.Remove(item);
+                    }
+                    break;
+                }
+            }
+        }
+
+        //MST: função para verificar quantos navios restam para determinar se o jogo continua
+        public string checkRemainingShips(Player player, Player computer, Label info)
+        {
+            List<Ship> playerShips   = player.getShips();
+            List<Ship> computerShips = computer.getShips();
+            string winner = "";
+
+            if (playerShips.Count == 0)
+            {
+               info.Text = "All player's ships were destroyed! Game Over!";
+               winner = "Computer";                 
+            }
+            else if (computerShips.Count == 0)
+            {
+                info.Text = "All computer's ships were destroyed!";
+                winner = "Player";            
+            }
+
+            return winner;
         }
 
         //MST: cálculo da percentagem de tiros que acertaram
