@@ -6,19 +6,23 @@ Exercícos e trabalhos realizados para a disciplina INDES (Interfaces e Desing) 
 
 ### Conteúdo ###
 
-* Aula 1
-    * Domotica
-* Aula 2
-    * Dados
-    * Slot Machine
-* Aula 3
-    * Dados
-    * Slot Machine
-    * Tic-Tac-Toe
-* Aula 4
-    * Calculadora
-* Trabalho 1
-* Trabalho 2  
+* Aulas:
+    * Aula 1
+          * Domotica
+    * Aula 2
+          * Dados
+          * Slot Machine
+    * Aula 3
+          * Dados
+          * Slot Machine
+          * Tic-Tac-Toe
+    * Aula 4
+          * Calculadora
+    * Ficheiros ZIP das Aulas
+* Trabalhos:
+    * Trabalho 1 (Aspectos positivos e negativos de interfaces) 
+    * Trabalho 2 (Broadcaster)
+    * Trabalho 3 (Batalha Naval)
 
 ### Requisitos ###
 
@@ -27,5 +31,5 @@ Exercícos e trabalhos realizados para a disciplina INDES (Interfaces e Desing) 
 
 ### Autores ###
 
-* Mário Teixeira [1090626](mailto:1090626@isep.ipp.pt)
-* Hugo Santos [1091330](mailto:1091330@isep.ipp.pt)
+* [1090626](mailto:1090626@isep.ipp.pt) - Mário Teixeira 
+* [1091330](mailto:1091330@isep.ipp.pt) - Hugo Santos 
